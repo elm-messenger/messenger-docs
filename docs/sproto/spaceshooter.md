@@ -45,7 +45,7 @@ type alias InitData cdata scenemsg =
 ```
 
 :::note
-We cannot use `SceneCommonData` or `SceneMsg`. The reason is cycle import explained in [init](#init). Please read that diagram carefully.
+We cannot use `SceneCommonData` or `SceneMsg`. The reason is cycle import explained in [init](../helloworld/init). Please read that diagram carefully.
 :::
 
 Then we add this `InitData` to the `LayerMsg` of `Game` (`SceneProtos/Game/SceneBase.elm`):

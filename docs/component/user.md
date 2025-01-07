@@ -92,7 +92,7 @@ Then update all the components in the layer using `updateComponents`, which has 
 
 ## Message Blocking
 
-Our code seems to work well when we click the non-overlapping part of the two rectangles. But when we click the overlapping part of them, both of them turn black, which is not expected. The issue has been mentioned in [events](#events). So we can solve this problem by changing the block value from `False` to `True`.
+Our code seems to work well when we click the non-overlapping part of the two rectangles. But when we click the overlapping part of them, both of them turn black, which is not expected. The issue has been mentioned in [events](../event). So we can solve this problem by changing the block value from `False` to `True`.
 
 ```elm
 ( ( { data | color = Color.black }, basedata ), [], ( env, True ) )
@@ -104,7 +104,7 @@ What if we add a layer `B` to the scene? Create a new layer B:
 messenger layer -c Game B
 ```
 
-Then add it to the scene. Note to put `B` before `A` in the layer list so that layer `A` will update before `B` and render after `B`. See [layers](#layers) and [events](#events).
+Then add it to the scene. Note to put `B` before `A` in the layer list so that layer `A` will update before `B` and render after `B`. See [layers](../helloworld/order) and [events](../event).
 
 Add two rectangle components to `B` in position (100, 100) and (250, 250) with size (200, 200), which means they will be overlapped by the components in `A`. Left-click one component in `A`, the components in `B` do not turn black. It shows the block indicator will be passed by the order of updating.
 

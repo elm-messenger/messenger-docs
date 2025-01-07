@@ -28,4 +28,4 @@ Then draw a red rectangle on layer A and a blue rectangle on layer B at the same
 
 Layer B will be on the top of the layer A, which means A is rendered before B. The order is the same when using `Canvas.group`. The first element in a list will be rendered first and be at the bottom of the scene. Therefore, it is important to organize the order of layers correctly.
 
-However, the order of updating is different from rendering. See [Events](../event/event).
+However, the order of updating is different from rendering. See [Events](../event).

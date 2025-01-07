@@ -47,4 +47,4 @@ It is fine to use lowercase letters like `home` and `mainLayer`. The Messenger C
 By default, a scene is a `LayeredScene`. To create a `RawScene` without any layers, add the `--raw` argument when creating a scene. Raw scene doesn't have `SceneBase.elm` when created. However, if users try to add a component or a layer to a raw scene, that file will automatically be created.
 :::
 
-See [CLI documentation](#cli) to learn more about Messenger CLI.
+See [CLI documentation](../misc/som#messenger-cli-commands) to learn more about Messenger CLI.
