@@ -45,7 +45,7 @@ type alias ConcreteGeneralModel data env event tar msg ren bdata sommsg =
 `init` is the function to initialize the object.
 `update` is the function to update the object when an event occur. `updaterec` is the function to update when other object send you a message. `view` is the function to generate `Renderable`. `matcher` is the function to identifies itself.
 
-Type `env` is the _environment type_. It contains global data and common data, if any. `event` is the event type, `data` is the user defined datatype. `bdata` is the base data used in components (see @component). `ren` is the rendering type.
+Type `env` is the _environment type_. It contains global data and common data, if any. `event` is the event type, `data` is the user defined datatype. `bdata` is the base data used in components (see [Component](../component)). `ren` is the rendering type.
 
 Messenger CLI will use templates to help you create scenes, layer and components.
 
@@ -72,7 +72,7 @@ type MsgBase othermsg sommsg
 
 
 
-`SOMMsg` is passed to the core from Component $\rightarrow$ Layer $\rightarrow$ Scene. It's possible to block `SOMMsg` from a higher level. See @sommsg to learn more about `SOMMsg`s.
+`SOMMsg` is passed to the core from Component $\rightarrow$ Layer $\rightarrow$ Scene. It's possible to block `SOMMsg` from a higher level. See [SOM](../misc/som) to learn more about `SOMMsg`s.
 
 Users may need to handle `Parent` messages from components in a layer. Messenger provides a handy function `handleComponentMsgs` which is defined in `Messenger.Layer.Layer`, to help users handle those messages. Users need to provide a `MsgBase` handler, for example:
 

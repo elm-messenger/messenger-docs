@@ -96,7 +96,7 @@ This message is to change the volume. It should be a value in $[0, 1]$. Users co
 
 Save global data (including user data) to local storage.
 
-See @localstorage.
+See [Local Storage](../advanced/localstorage).
 
 ## `SOMGCLoad`, `SOMGCUnload`, `SOMCallGC`
 
@@ -106,7 +106,7 @@ See @localstorage.
 
 **Definition:** `SOMCallGC (List ( GCTarget, GCMsg ))`
 
-See @gc.
+See [Global Component](../advanced/gc).
 
 ## Game Configurations
 
@@ -117,10 +117,10 @@ Users may want to change the settings in `MainConfig.elm` to match their demand.
 - `virtualSize`: The virtual drawing size. Users may use whatever they like but think carefully about the ratio (Support 4:3 or 16:9? screens)
 - `debug`: A debug flag. If turned on, users can press `F1` to change to a scene quickly and press `F2` to change volume at any time in the game
 - `background`: The background users see. Default is a transparent background
-- `timeInterval`: The update strategy. See @tick
-- `initGlobalData` and `saveGlobalData`: See @localstorage
+- `timeInterval`: The update strategy. See [Tick Event](../event/tick)
+- `initGlobalData` and `saveGlobalData`: See [Local Storage](../advanced/localstorage)
 
-## Messenger CLI Commands \<cli\>
+## Messenger CLI Commands
 
 You can also use `messenger <command> --help` to view help.
 

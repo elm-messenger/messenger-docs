@@ -38,7 +38,7 @@ type alias LayerUpdateRec cdata userdata tar msg scenemsg data =
 
 Users can provide the `tar` and `msg` type in `Scenes/Home/SceneBase.elm`.
 
-Now let's consider implementing the example mentioned in @example1. You can either start a new project or use the hello world project.
+Now let's consider implementing the example mentioned in [Introduction](../intro/model#example). You can either start a new project or use the hello world project.
 
 Create a scene with three layers:
 

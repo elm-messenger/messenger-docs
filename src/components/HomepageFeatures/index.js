@@ -8,8 +8,8 @@ const FeatureList = [
     // Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Messenger is powered by Elm, a functional programming language that has strong type system.
+        Elm will help you write much less bugs and make your code more maintainable.
       </>
     ),
   },
@@ -18,8 +18,7 @@ const FeatureList = [
     // Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Messenger makes an abstraction over the game components and it is easy to communicate between them through custom messages.
       </>
     ),
   },
@@ -28,8 +27,7 @@ const FeatureList = [
     // Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Messenger is designed to isolate the user's game logic from the engine code by providing SOMs (like system calls), making it easier to test and maintain.
       </>
     ),
   },

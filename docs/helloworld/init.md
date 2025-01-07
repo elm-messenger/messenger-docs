@@ -47,4 +47,4 @@ In the above diagram, A $\rightarrow$ B means A _may_ depend on B, and B **must 
 
 As you can see, all the models can depend on all the `Base` and `Init`. So it's quite free to import any types you defined.
 
-However, in the "Base and Init" zone, you should carefully handle the dependency. The rule is: **upper level may depend on lower levels**. **Never** use `Lib.Base` in any `Base` or `Init`. If necessary, use a type parameter and instantiate it in models (see the @sceneproto example).
+However, in the "Base and Init" zone, you should carefully handle the dependency. The rule is: **upper level may depend on lower levels**. **Never** use `Lib.Base` in any `Base` or `Init`. If necessary, use a type parameter and instantiate it in models (see the [Scene Prototype Example](../sproto/spaceshooter)).

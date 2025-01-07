@@ -20,7 +20,7 @@ The characteristics of portable components include:
 - Users who use portable components need to provide a codec to transform the messages and targets.
 
 :::warning
-Portable components are only useful when you are designing a component applicable to many different scenes (e.g. UI element). However, if your component is tightly connected to the scene (in most cases), please use scene prototype discussed in @sceneproto. It allows you to reuse scene and components. Think carefully whether you really need portable components before using it.
+Portable components are only useful when you are designing a component applicable to many different scenes (e.g. UI element). However, if your component is tightly connected to the scene (in most cases), please use scene prototype discussed in [Scene Prototype](../sproto). It allows you to reuse scene and components. Think carefully whether you really need portable components before using it.
 :::
 
 Specifically, you need to provide codecs with the following types:
@@ -167,4 +167,4 @@ Now the requirement is simply implemented since every specific button message `O
 
 Find the detailed example [here](https://github.com/linsyking/messenger-examples/tree/main/portable-components).
 
-Users can even make different translators for the same portable component type to implement different usages. And the same type of portable component can be used in different scenes by setting translators for every scene. See more usages about portable components in @componentgroup.
+Users can even make different translators for the same portable component type to implement different usages. And the same type of portable component can be used in different scenes by setting translators for every scene. See more usages about portable components in [Component Group](../advanced/comp#component-group).
