@@ -6,10 +6,6 @@ sidebar_position: 2
 
 This section contains some ideas we'd like to implement in future versions of Messenger. We welcome users to post feature requests in our Messenger repository's issues.
 
-## Runtime Asset Loading
-
-Load assets at runtime.
-
 ## Multi-pass Updater
 
 Some components may want to do some operations after all other components have finished. This is the **second-pass** updater. We plan to extend this idea further to support **multi-pass** updater. Components may update **any** number of passes in one event update.
@@ -20,7 +16,7 @@ Users might want to have `List (Renderable, Int)` instead of `(Renderable, Int)`
 
 ## Unified Custom Element
 
-Unify `elm-canvas` and the audio system.
+Unify the rendering and the audio system.
 
 ## Asset Manager
 

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 ---
 
 # Order of Rendering
@@ -26,6 +26,6 @@ Now similarly, add these two layers to scene:
 
 Then draw a red rectangle on layer A and a blue rectangle on layer B at the same position. See the result.
 
-Layer B will be on the top of the layer A, which means A is rendered before B. The order is the same when using `Canvas.group`. The first element in a list will be rendered first and be at the bottom of the scene. Therefore, it is important to organize the order of layers correctly.
+Layer B will be on the top of the layer A, which means A is rendered before B. The order is the same when using `REGL.group`. The first element in a list will be rendered first and be at the bottom of the scene. Therefore, it is important to organize the order of layers correctly.
 
 However, the order of updating is different from rendering. See [Events](../event).

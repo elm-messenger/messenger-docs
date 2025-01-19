@@ -70,6 +70,8 @@ Users can use `newAudioChannel` to generate a unique channel ID.
 
 This message is used to stop a channel. The parameter is the channel ID. If there are multiple audios playing on a channel, all of them will be stopped.
 
+## `SOMTransformAudio`
+
 ## `SOMAlert`
 
 **Definition:** `SOMAlert String`
@@ -108,17 +110,23 @@ See [Local Storage](../advanced/localstorage).
 
 See [Global Component](../advanced/gc).
 
+## `SOMChangeFPS`
+
+## `SOMLoadResource`
+
 ## Game Configurations
 
 Users may want to change the settings in `MainConfig.elm` to match their demand. This section explains what each option in that configuration file means.
 
 - `initScene`: The first scene users will see when starting the game
 - `initSceneMsg`: The message to start the first scene
-- `virtualSize`: The virtual drawing size. Users may use whatever they like but think carefully about the ratio (Support 4:3 or 16:9? screens)
+- `virtualSize`: The virtual drawing size. Users may use whatever they like but think carefully about the ratio (Support 4:3 or 16:9 screens)
 - `debug`: A debug flag. If turned on, users can press `F1` to change to a scene quickly and press `F2` to change volume at any time in the game
 - `background`: The background users see. Default is a transparent background
 - `timeInterval`: The update strategy. See [Tick Event](../event/tick)
 - `initGlobalData` and `saveGlobalData`: See [Local Storage](../advanced/localstorage)
+- `fboNum`: Number of FBOs to enable.
+- `enabledBuiltinPrograms`: Builtin REGL programs enabled at the beginning of the game.
 
 ## Messenger CLI Commands
 
@@ -148,6 +156,8 @@ Arguments:
 - `name`: The name of the project
 - `--template-repo`, `-t`: Use a customized repository for cloning templates.
 - `--template-tag`, `-b`: The tag or branch of the repository to clone.
+- `--use-cdn`: Use jsdelivr CDN for elm-regl JS file.
+- `--min`: Use minimal regl JS that has no builtin font.
 
 ## Layer
 
@@ -188,3 +198,31 @@ Arguments:
 - `--cdir`, `-cd`: Directory to store components
 - `--proto`, `-p`: Create component in sceneproto
 - `--init`, `-i`: Create an `Init.elm` file
+
+## Global Component
+
+Create a global component.
+
+Usage: `messenger gc [OPTIONS] NAME`
+
+Arguments:
+
+- `name`: The name of the component
+
+## Update
+
+Update `messenger.json` based on existing files.
+
+## Remove
+
+Remove a scene or a sceneproto.
+
+Usage: `messenger remove [OPTIONS] TYPE NAME`
+
+Arguments:
+
+- `type`: Either `"scene"` or `"sceneproto"`
+- `name`: The name of the scene or sceneproto
+- `--rm`: Also remove the modules
+- `--rml`: Remove all levels in the sceneproto
+- `--help`: Show this message and exit
