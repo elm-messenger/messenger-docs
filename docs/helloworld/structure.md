@@ -19,7 +19,7 @@ You should be expected to see the following structure:
     ├── Lib
     │   ├── Base.elm # Base types for many modules
     │   ├── Ports.elm
-    │   ├── Resources.elm # Images to load
+    │   ├── Resources.elm # Resources (image, font, audio, etc.) to load
     │   └── UserData.elm # User global data
     ├── MainConfig.elm # Configurations for the game
     ├── Main.elm
@@ -35,6 +35,6 @@ You should be expected to see the following structure:
             │   │   ├── Model.elm
             │   │   └── Init.elm
             │   └── ComponentBase.elm
-            ├── SceneBase.elm
-            └── Model.elm
+            ├── SceneBase.elm # Defines datatype for layer communication
+            └── Model.elm # Scene main logic
 ```

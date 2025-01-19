@@ -11,6 +11,7 @@ There are several modules (sub-projects) within the Messenger project. All devel
 - [Messenger extra](https://github.com/elm-messenger/messenger-extra): Extra Messenger library with experimental features
 - [Messenger examples](https://github.com/elm-messenger/messenger-examples): Example projects
 - [Messenger templates](https://github.com/elm-messenger/messenger-templates): Templates to use the Messenger library, used in the Messenger CLI
+- [Elm REGL](https://github.com/elm-messenger/elm-regl): Rendering backend
 
 :::note
 This manual is compatible with core `16.1.0`, templates and CLI `0.5.1`.
