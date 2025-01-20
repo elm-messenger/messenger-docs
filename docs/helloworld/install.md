@@ -43,29 +43,4 @@ messenger init helloworld --min
 messenger init helloworld --use-cdn --min
 ```
 
-Then, create a new scene and add a layer in that scene:
-
-```bash
-# Open our project directory
-cd helloworld
-# Create a new scene
-messenger scene Home
-# Create a new layer called MainLayer
-messenger layer Home MainLayer
-```
-
-:::note
-If the scene name is not "Home", change the scene name in `initScene` in `MainConfig.elm` (which defines which scene to start), as it is set to "Home" by default.
-:::
-
-:::note
-It is fine to use lowercase letters like `home` and `mainLayer`. The Messenger CLI will automatically convert these to appropriate names.
-:::
-
-:::tip
-By default, a scene is a `LayeredScene`. To create a `RawScene` without any layers, add the `--raw` argument when creating a scene. Raw scene doesn't have `SceneBase.elm` when created. However, if users try to add a component or a layer to a raw scene, that file will automatically be created.
-
-The functionality of each Elm file created by the template will be explained later.
-:::
-
 See [CLI documentation](../misc/som#messenger-cli-commands) to learn more about Messenger CLI.

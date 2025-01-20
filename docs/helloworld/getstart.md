@@ -6,7 +6,7 @@ sidebar_position: 4
 
 First, determine the `UserData` and `SceneMsg`, which respectively represent the data that can be accessed or modified at any time and the message to be sent to the scene when switching scenes.
 
-Next, prepare `userConfig` and a list containing all the scenes as inputs. The `userConfig` is a record that includes the basic configurations needed by the main function. This is automatically wrapped in `Main.elm`, so only the options in `MainConfig.elm` need to be modified.
+Next, prepare `userConfig` and a list containing all the scenes as inputs. The `userConfig` is a record that includes the basic configurations needed by Messenger core. This is automatically wrapped in `Main.elm`, so only the options in `MainConfig.elm` need to be modified.
 
 An initial global data is also needed, but it is not necessary to provide the full global data. Instead, users only need to provide a subset that does not include any Messenger internal data.
 
@@ -33,12 +33,21 @@ init env msg =
 Now open `Scenes/Home/MainLayer/Model.elm`. Change the `view` function:
 
 ```elm
-import Messenger.Render.Text exposing (renderText)
+import REGL.BuiltinPrograms as P
+import Color
 ...
 view : LayerView SceneCommonData UserData Data
 view env data =
-    renderText env.globalData.internalData 40 "Hello World" "Arial" ( 900, 500 )
+    P.textbox ( 0, 0 ) 100 "Hello World" "consolas" Color.black
 ```
+
+:::tip
+This view will render a textbox at the left-top corner with size 100.
+:::
+
+:::note
+"consolas" is the builtin font in REGL JS. If you use the minimal REGL JS version, there is no such font and you need to load your own font.
+:::
 
 `LayerView` is a type sugar to represent the `view` type of layer.
 
@@ -47,7 +56,7 @@ type alias LayerView cdata userdata data =
     Env cdata userdata -> data -> Renderable
 ```
 
-It will expands to
+It will expand to
 
 ```elm
 Env SceneCommonData UserData -> Data -> Renderable
@@ -64,20 +73,21 @@ type alias Env common userdata =
     }
 ```
 
-`GlobalData` is a type that Messenger keeps all the time. It has some key information Messenger needs to use like the screen size. Many Messenger library functions need global data as an argument.
+`GlobalData` is a type that Messenger keeps track of all the time. It has some key information Messenger needs to use like the screen size.
 
 `commonData` is the data shared among all the layers in a scene. It is defined in `Scenes/Home/SceneBase.elm:SceneCommonData`.
+Users could customize it for each scene.
 
 Let's take a closer look at `GlobalData`.
 
 ```elm
 type alias GlobalData userdata =
     { internalData : InternalData
-    , sceneStartTime : Int
-    , globalStartTime : Int
+    , sceneStartTime : Float
+    , globalStartTime : Float
     , globalStartFrame : Int
     , sceneStartFrame : Int
-    , currentTimeStamp : Time.Posix
+    , currentTimeStamp : Float
     , windowVisibility : Visibility
     , mousePos : ( Float, Float )
     , pressedMouseButtons : Set Int
@@ -105,14 +115,14 @@ Global data won't be reset if users change the scene.
 - `currentScene` records the current scene name
 - `mousePos` records the mouse position, in virtual coordinate
 
-:::note
-Since the `globalStartTime` and `sceneStartTime` are discrete, please use a range rather than a specific time point when judging the time.
+:::tip
+Since the `globalStartTime` and `sceneStartTime` are float numbers, please use a range rather than a specific time point when judging the time.
 :::
 
-Now, run `make` to build the game, and use `elm reactor` or other static file hosting tools (If you use VS Code, you can try using the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)), but **DO NOT** directly open the HTML file in the browser because assets won’t be loaded due to CORS.
+Now, run `make` to build the game, and use `elm reactor` or other static file hosting tools (If you use VS Code, you can try using the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)), but **DO NOT** directly open the HTML file in the browser because assets won’t be loaded due to [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
 
-We use coordinate `(900, 500)` to render the text instead of using HTML tags. This coordinate is not the real pixels on the screen, but the **virtual coordinate** in the game.
+We use coordinate `(0, 0)` to render the text instead of using HTML tags. This coordinate is not the real pixels on the screen, but the **virtual coordinate** in the game.
 
-The virtual resolution is 1920 × 1080 by default, and the real resolution is determined by the browser window size. The virtual size is defined in `MainConfig.elm`, users may change it to whatever they like.
+The virtual resolution is $1920 \times 1080$ by default, and the real resolution is determined by the browser window size. The virtual size is defined in `MainConfig.elm`, users may change it to whatever they like.
 
-The `renderText` function wraps the `Canvas.text` which will transform virtual coordinate to the real coordinate. That’s why we also need to send `env.globalData` to that function.
+`P.textbox` uses a builtin REGL program that renders the text.
