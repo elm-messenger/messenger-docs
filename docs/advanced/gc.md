@@ -214,3 +214,5 @@ fadeOut color gd rd v =
 ```
 
 The common pattern is to put the next scene as the background and use an "alpha" value to control the transition scene.
+
+## Asset Loading
