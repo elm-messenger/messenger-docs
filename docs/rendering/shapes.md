@@ -20,9 +20,9 @@ Definition 2: `rect : ( Float, Float ) -> ( Float, Float ) -> Color -> Renderabl
 
 `rect` will call `rectCentered` because it is faster.
 
-Definition 3: `rectCentered : ( Float, Float ) -> ( Float, Float ) -> Color -> Renderable`. (Recommended)
+Definition 3: `rectCentered : ( Float, Float ) -> ( Float, Float ) -> Float -> Color -> Renderable`. (Recommended)
 
-`rectCentered` use center coordinate and size to draw the rectangle.
+`rectCentered` use center coordinate, size and angle to draw the rectangle.
 
 ## Polygon
 
