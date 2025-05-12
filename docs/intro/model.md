@@ -57,11 +57,23 @@ type alias ConcreteGeneralModel data env event tar msg ren bdata sommsg =
 Don't worry about so many type parameters! They are straightforward after understanding the functions.
 :::
 
-`init` is the function to initialize the object.
-`update` is the function to update the object when an event occur. `updaterec` is the function to update when other objects send it a message. `view` is the function to generate the view. `matcher` is the function to identifies itself.
+The functions in `ConcreteGeneralModel` define the core behavior of a general model:
+`init` initializes the object.
+`update` updates the object when an event occurs. 
+`updaterec` updates the object when other objects send it a message. 
+`view` generates the view. 
+`matcher` identifies the object itself.
 
-Type `env` is the _environment type_. In Messenger it contains _global data_ and _common data_, if any. `event` is the event type, `data` is the user defined datatype. `bdata` is the _base data_ used in components (see [Component](../component)). `ren` is the rendering type.
-
+The type parameters in `ConcreteGeneralModel` have the following meanings:
+`env` is the _environment type_. In Messenger it contains _global data_ and _common data_, if any. 
+`event` is the event type.
+`data` is the user-defined datatype. 
+`bdata` is the _base data_ used in components (see [Component](../component)). 
+`ren` is the rendering type.
+`tar` is the target type used for matching.
+`msg` is the message type.
+`sommsg` is the scene output message type (see [SOM](../misc/som.md)).
+~
 `ConcreteGeneralModel` is the most generic form of a general model. Messenger mostly uses its applied form:
 
 ```elm
@@ -88,8 +100,11 @@ type MsgBase othermsg sommsg
     = SOMMsg sommsg
     | OtherMsg othermsg
 ```
+`Parent` represents messages sent to the parent level (e.g., from a component to its layer or from a layer to its scene).
 
-`SOMMsg`, or _Scene Output Message_, is a message that can directly interact with the core. For example, to play an audio, users can emit a `SOMPlayAudio` message, and the core will handle it.
+`Other` represents messages sent to another target within the same level.
+
+`SOMMsg`, or _Scene Output Message_, represents messages that can directly interact with the core. For example, to play an audio, users can emit a `SOMPlayAudio` message, and the core will handle it.
 
 ![](/img/intro2.jpg)
 
