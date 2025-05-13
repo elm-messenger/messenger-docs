@@ -169,7 +169,7 @@ It is fine to use lowercase letters like `home` and `mainLayer`. The Messenger C
 :::tip
 By default, a scene is a `LayeredScene`. To create a `RawScene` without any layers, add the `--raw` argument when creating a scene. A raw scene doesn't include `SceneBase.elm` when created. However, if users try to add a component or a layer to a raw scene later, that file will automatically be created.
 
-Similarly, layers are created without the use of components by default. To generate a layer with components, add the `-c` or `--with-component` argument when creating the layer.  If no components exist in the scene, a `Components` directory containing the `ComponentBase.elm` file will be created automatically.
+Similarly, layers are created without the use of components by default. To generate a layer with components, add the `-c` or `--with-component` argument when creating the layer.  If no components exist in the scene, a `Components/` directory containing the `ComponentBase.elm` file will be created automatically.
 
 The functionality of each Elm file created by the template will be explained later.
 :::

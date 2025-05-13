@@ -59,33 +59,33 @@ Don't worry about so many type parameters! They are straightforward after unders
 
 The functions in `ConcreteGeneralModel` define the core behavior of a general model:
 
-`init` initializes the object.
+- `init` initializes the object.
 
-`update` updates the object when an event occurs. 
+- `update` updates the object when an event occurs. 
 
-`updaterec` updates the object when other objects send it a message.
+- `updaterec` updates the object when other objects send it a message.
 
-`view` generates the view. 
+- `view` generates the view. 
 
-`matcher` identifies the object itself.
+- `matcher` identifies the object itself.
 
 The type parameters in `ConcreteGeneralModel` have the following meanings:
 
-`env` is the _environment type_. In Messenger it contains _global data_ and _common data_, if any. 
+- `env` is the _environment type_. In Messenger it contains _global data_ and _common data_, if any. 
 
-`event` is the event type.
+- `event` is the event type.
 
-`data` is the user-defined datatype. 
+- `data` is the user-defined datatype. 
 
-`bdata` is the _base data_ used in components (see [Component](../component)). 
+- `bdata` is the _base data_ used in components (see [Component](../component)). 
 
-`ren` is the rendering type.
+- `ren` is the rendering type.
 
-`tar` is the target type used for matching.
+- `tar` is the target type used for matching.
 
-`msg` is the message type.
+- `msg` is the message type.
 
-`sommsg` is the scene output message type (see [SOM](../misc/som.md)).
+- `sommsg` is the scene output message type (see [SOM](../misc/som.md)).
 
 `ConcreteGeneralModel` is the most generic form of a general model. Messenger mostly uses its applied form:
 
