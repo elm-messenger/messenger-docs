@@ -4,22 +4,30 @@ sidebar_position: 4
 
 # Tick Event
 
-The parameter is `delta: Int`. It is triggered every `timeInterval` (defined in user configuration file). `delta` is the time elapsed since last `Tick` in milliseconds.
+## `Tick`
 
-`timeInterval` has type of `TimeInterval`, which is defined as:
+**Definition:** `Tick Float`
+
+Triggered repeatedly every `timeInterval` (defined in user configuration file). 
+
+The parameter represents the time elapsed `delta`, since last `Tick` in milliseconds.
+
+The `timeInterval` has type `REGL.TimeInterval`, which is defined as:
 
 ```elm
 type TimeInterval
-    = Fixed Float
-    | Animation
+    = AnimationFrame
+    | Millisecond Float
 ```
 
-`Fixed` represents the fixed time interval between every two frames. The value is the time interval in milliseconds.
+- `AnimationFrame` uses the browser's `requestAnimationFrame` to update the game instead of manually configuring the time interval. The frame rate depends on the device, resulting smoother animations.
 
-`Animation` will use the browser's `requestAnimationFrame` to update the game. The frame rate will be dependent on your device. This will make the animation looks smoother.
-
-If users want to know the current timestamp, they can access it from `globalData.currentTimeStamp`. Users can convert it to timestamp in milliseconds by `Time.posixToMillis`.
+- `Millisecond` represents a fixed time interval between two frames. The value specifiess the time interval in milliseconds. If an event of takes longer to execute than the configured time interval, all subscriptions will not be triggered until that event finishes.
 
 :::note
-If an event of the game runs longer than `timeInterval`, all subscriptions will not be triggered until that event finishes.
+`delta` is not always equal to the configured time interval. Always use `delta` for time-related updates to get the actual time elapsed.
+:::
+
+:::note
+Users can use `globalData.currentTimeStamp` to get the current timestamp
 :::
