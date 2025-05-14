@@ -95,6 +95,10 @@ alphamult : Float -> Effect
 alphamult a =
 ```
 
+:::warning
+Using this effect to set the alpha of a single renderable may be slow. Use `alpha` from compositors instead to set alpha if possible (for example, set the alpha of a circle).
+:::
+
 ### `fxaa`
 
 Applies Fast approximate anti-aliasing (FXAA) to the renderable.
