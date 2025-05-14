@@ -37,6 +37,8 @@ For example, the command to draw a triangle is defined as:
 triangle : ( Float, Float ) -> ( Float, Float ) -> ( Float, Float ) -> Color -> Renderable
 ```
 
+The commands like `triangle` does not really draw a triangle when you call it. The command internally genrates a call to a registerd REGL program. The call will be triggered to run the associated program during rendering after the update logic.
+
 Users need to provide three coordinates and a color to draw a triangle. Remember that the `view` function of Messenger general model accepts a renderable, so it is very easy to draw anything in Messenger.
 
 ## Structural Drawing
