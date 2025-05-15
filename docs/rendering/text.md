@@ -32,6 +32,8 @@ textbox ( x, y ) size text font color =
     ...
 ```
 
+The parameter's meaning is what the name suggests. The font name is what you defined by `allFont` in `src/Lib/Resources.elm`.
+
 ## Textbox Pro
 
 However, if you want to render multi-line paragraph or uses bold or italic styles, you need to use a more advanced API: `textboxPro`:
@@ -44,14 +46,14 @@ type alias TextBoxOption =
     , text : String
     , size : Float
     , color : Color
-    , wordBreak : Bool
+    , wordBreak : Bool -- Whether allowed to break words when changing the line
     , thickness : Maybe Float
     , italic : Maybe Float
-    , width : Maybe Float
-    , lineHeight : Maybe Float
-    , wordSpacing : Maybe Float
-    , align : Maybe String
-    , letterSpacing : Maybe Float
+    , width : Maybe Float -- Testbox width
+    , lineHeight : Maybe Float -- Height for each line
+    , wordSpacing : Maybe Float -- Spacing between words
+    , align : Maybe String -- Align to left, center, or right
+    , letterSpacing : Maybe Float -- Spacing between letters
     }
 
 {-| Render a textbox with more options.
@@ -61,7 +63,7 @@ textboxPro ( x, y ) opt =
     ...
 ```
 
-Here `thickness` and `italic` are floats so users could specify how much they want to apply that style. The effect is done through shaders so it is not as accurate as the font's own variants.
+Here `thickness` and `italic` are floats so users could specify how much they want to apply that style. The effect is done through shaders and linear transformation so it is not as accurate as the font's own variants.
 
 Multi-line rendering can be enabled by using `Just <width>` in the `width` field. `Nothing` means infinity length.
 
