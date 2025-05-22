@@ -109,7 +109,7 @@ view env data =
 This is very similar to the raw scene except that the `update` function returns an additional boolean value which is a `block` value.
 See [event](../event) to learn how to use it.
 
-Later in the tutorials users will learn the components. A layer may contain many components just like a scene may contain many layers.
+Later in the tutorials users will learn the components. A layer may contain many components just like a scene may contain many layers. When users decide to use layers with components, the generated model will be slightly rivised to make it easier for users to manage components.
 
 Users may need to handle `Parent` messages from components in a layer. Messenger provides a handy function `handleComponentMsgs` which is defined in `Messenger.Layer.Layer`, to help users handle those messages. Users need to provide a `MsgBase` handler, for example:
 
@@ -141,6 +141,9 @@ update env evt data =
     in
     ( data1, msgs2, ( env2, block1 ) )
 ```
+:::tip
+At this stage, components are not necessarily required, so don’t worry if this seems confusing. The interaction between layers and components will be explained in detail in later chapters.
+:::
 
 ## Hello World
 
@@ -164,7 +167,9 @@ It is fine to use lowercase letters like `home` and `mainLayer`. The Messenger C
 :::
 
 :::tip
-By default, a scene is a `LayeredScene`. To create a `RawScene` without any layers, add the `--raw` argument when creating a scene. Raw scene doesn't have `SceneBase.elm` when created. However, if users try to add a component or a layer to a raw scene, that file will automatically be created.
+By default, a scene is a `LayeredScene`. To create a `RawScene` without any layers, add the `--raw` argument when creating a scene. A raw scene doesn't include `SceneBase.elm` when created. However, if users try to add a component or a layer to a raw scene later, that file will automatically be created.
+
+Similarly, layers are created without the use of components by default. To generate a layer with components, add the `-c` or `--with-component` argument when creating the layer.  If no components exist in the scene, a `Components/` directory containing the `ComponentBase.elm` file will be created automatically.
 
 The functionality of each Elm file created by the template will be explained later.
 :::

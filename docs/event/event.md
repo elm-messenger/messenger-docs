@@ -8,7 +8,7 @@ There are two types of events in Messenger: _World Event_ and _User Event_. Worl
 
 ```elm
 type UserEvent
-    = Tick Int
+    = Tick Float
     | KeyDown Int
     | KeyUp Int
     | MouseDown Int ( Float, Float )

@@ -200,3 +200,31 @@ However, this method doesn't work in some cases, especially when a new component
 Users can decide the z-index dynamically based on data or environment in the `view` function. Take the previous issue for example, the requirement can be implemented by adding a new value `order` in `data` which determines the z-index.
 
 The source code in this part can be found [here](https://github.com/linsyking/messenger-examples/tree/main/layers).
+
+## Parent Interfaces
+
+In some situations, the parent of components may need to operate on them directly, without message passing, to avoid unnecessary redundancy and latency. For example, deleting a component or accessing its position.
+
+However, since the components are stored as abstract types, the operations available to the parent are limited. Essentially, the parent can only access what the abstract type exposes: `update`, `updaterec`, `view`, `matcher`, `baseData`.
+
+`update`, `updaterec` and `view` are rarely used. The useful interfaces are `matcher`, which is usually used to identify the component, and `baseData`, which allows the parent to access the base data of a component.
+
+Before operating on a component, it should be _unrolled_ since the abstract types are _rolled_ to enable delayed evaluation. Messenger provides an `unroll` function to convert an abstract-typed component into its unrolled form.
+
+For example, to access the `position` value stored in the `baseData` of a component `comp`, users can use:
+
+```elm
+(unroll comp).baseData.position
+```
+
+To write a function that checks whether a component is of type "Enemy":
+
+```elm
+\comp -> (unroll comp).matcher "Enemy"
+```
+
+:::note
+Most of the time message passing is sufficient for interaction between a component and its parent. Avoid overusing `baseData` for easy accessibility.
+
+Baiscally, base data is designed to pass shared-typed data easily without encoding and decoding. And `baseData` interface is intended for performing operations across all components.
+:::
