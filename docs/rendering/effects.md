@@ -4,10 +4,6 @@ sidebar_position: 8
 
 # Effects
 
-:::warning
-This is not stable yet!
-:::
-
 Effects are some visual effects applied after rendering a `REGL.group`. For example, we provide `gblur` effect which applies a [Gaussian Blur](https://en.wikipedia.org/wiki/Gaussian_blur) effect.
 
 ```elm Example Code
@@ -86,7 +82,7 @@ Here C will be first applied with effect B, then applied with effect A.
 Simple blur effects.
 
 ```elm
-blur : Float -> Effect
+blur : Float -> List Effect
 blur radius =
 ```
 
@@ -100,7 +96,7 @@ alphamult a =
 ```
 
 :::warning
-Using this effect to set the alpha of a single renderable may be slow. Use `alpha` from compositors instead to set alpha if possible (for example, set the alpha of a circle).
+Using this effect to set the alpha of a single renderable may be slow. Use rendering commands with `alpha` to set alpha for texture rendering.
 :::
 
 ### `fxaa`
@@ -117,7 +113,7 @@ fxaa =
 Applies Gaussian Blur.
 
 ```elm
-gblur : Float -> Effect
+gblur : Float -> List Effect
 gblur sigma =
 ```
 
