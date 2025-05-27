@@ -4,6 +4,10 @@ sidebar_position: 10
 
 # Custom Programs
 
+:::warning
+Work in progress. This is a very advanced usage of the renderer. Do not use this if you are not familiar with shaders (GLSL).
+:::
+
 Users could write their own programs, effects and compositors.
 
 Before writing the program, we must understand how the programs, effects and compositors work under the hood.
