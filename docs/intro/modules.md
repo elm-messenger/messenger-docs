@@ -14,5 +14,5 @@ There are several modules (sub-projects) within the Messenger project. All devel
 - [Elm REGL](https://github.com/elm-messenger/elm-regl): Rendering backend
 
 :::note
-This manual is compatible with core `17.0.0`, templates and CLI `0.5.2`.
+This doc is compatible with core `17.0.1`, templates and CLI `0.5.2`.
 :::
