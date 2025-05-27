@@ -4,6 +4,10 @@ sidebar_position: 6
 
 # Effects
 
+:::warning
+This is not stable yet!
+:::
+
 Effects are some visual effects applied after rendering a `REGL.group`. For example, we provide `gblur` effect which applies a [Gaussian Blur](https://en.wikipedia.org/wiki/Gaussian_blur) effect.
 
 ```elm Example Code
