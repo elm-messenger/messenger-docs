@@ -13,11 +13,11 @@ For example, [pipx](https://pipx.pypa.io/stable/) is a tool to manage python app
 
 ```bash
 # pipx:
-pipx install -i https://pypi.python.org/simple elm-messenger>=0.5.1
+pipx install -i https://pypi.python.org/simple elm-messenger>=0.5.2
 # uv:
-uv tool install -i https://pypi.python.org/simple elm-messenger>=0.5.1
+uv tool install -i https://pypi.python.org/simple elm-messenger>=0.5.2
 # Or use pip on Windows:
-pip install -i https://pypi.python.org/simple elm-messenger>=0.5.1
+pip install -i https://pypi.python.org/simple elm-messenger>=0.5.2
 ```
 
 This tool is helpful in quickly building a project. To create a new project, use the following commands:
@@ -30,14 +30,14 @@ messenger init helloworld -t <Repo URL>
 messenger init helloworld -t <Repo URL> -b <Branch name>
 ```
 
-By default, it uses a local REGL JS backend with default font (~200KiB).
+By default, it uses a local REGL JS backend with default font `consolas` (~200KiB).
 
 You could switch to use JS on CDN or use the local version without default font:
 
 ```bash
 # Use CDN REGL JS with default font:
 messenger init helloworld --use-cdn
-# Use local REGL JS with no font (~130KiB):
+# Use local REGL JS with no font (~140KiB):
 messenger init helloworld --min
 # Use CDN REGL JS with no font:
 messenger init helloworld --use-cdn --min

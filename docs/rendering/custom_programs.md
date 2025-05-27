@@ -1,12 +1,8 @@
 ---
-sidebar_position: 8
+sidebar_position: 10
 ---
 
 # Custom Programs
-
-:::warning
-This is not stable yet!
-:::
 
 Users could write their own programs, effects and compositors.
 
@@ -63,3 +59,6 @@ user-space library functions. They are only a wrapper of the real system call.
 Now let's first write a real REGL program in Elm.
 
 In Messenger, all user-defined custom programs need to be registered by `allProgram` in `Lib/Resources.elm`.
+
+## Extend Elm-regl with JS
+
