@@ -30,6 +30,8 @@ The parameter represents the vertical scroll amount `delta`, which corresponds t
 
 :::note
 Users can use `judgeMouseRect` in `Messenger.Coordinate.Coordinates` to check whether the mouse is in a rectangle.
+
+The mouse coordinate is not transformed through the camera, so it is using the default UI camera starting from (0, 0) to (virtWidth, virtHeight).
 :::
 
 :::note
