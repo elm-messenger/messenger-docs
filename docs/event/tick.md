@@ -44,6 +44,6 @@ A `Tick` event marks the start of an updates-render period. When the time interv
 
 ![](/img/event1.jpg)
 
-When the time interval is set to `AnimationFrame` mode, the updates-render cycle synchronizes with the browser's rendering frame, which also means the `Tick` events are triggered as soon as the previous updates-render period is complete.
+When the time interval is set to `AnimationFrame` mode, The frequency is determined by both the duration of each updates-render cycle and the refresh rate of the device. In other words, the configured interval matches the minimum frame time of the device, allowing rendering to occur as frequently as possible.
 
 ![](/img/event2.jpg)
