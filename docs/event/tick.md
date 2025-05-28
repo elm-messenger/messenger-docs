@@ -40,10 +40,10 @@ In Messenger, rendering does not correspond directly to a single game update. In
 Users do not need to worry about the correctness of the model state when many events occur, as the model is updated according to the event queue. Though the game will be shown as paused since rendering is blocked.
 :::
 
-When the time interval is set to `Millisecond` mode, both the `Tick` event and rendering are triggered at the configured interval. If a frame takes longer than the configured interval, the next `Tick` will wait until the current frame finishes.
+A `Tick` event marks the start of an updates-render period. When the time interval is set to `Millisecond` mode, the `Tick` events are triggered at the configured interval. If a frame takes longer than the configured interval, the next `Tick` will wait until the current frame finishes.
 
 ![](/img/event1.jpg)
 
-When the time interval is set to `AnimationFrame` mode, the `Tick` event and rendering are triggered as soon as the previous updates are complete.
+When the time interval is set to `AnimationFrame` mode, the updates-render cycle synchronizes with the browser's rendering frame, which also means the `Tick` events are triggered as soon as the previous updates-render period is complete.
 
 ![](/img/event2.jpg)
