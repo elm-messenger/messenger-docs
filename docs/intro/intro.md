@@ -27,3 +27,7 @@ Messenger has many cool features:
 
 - **Flexible Design**  
   The engine can be used in various ways, with separate management of different tasks. Components can be organized flexibly, allowing classification of portable and non-portable components in any preferred way.
+
+More than 60 users have used Messenger to create fantastic games. See [SilverFOCS](https://focs.ji.sjtu.edu.cn/silverfocs/) website.
+
+To see the capabilities of Messenger, play with the [core test](https://elm-messenger.github.io/elm-regl/Messenger.html). Its source code is at [here](https://github.com/elm-messenger/messenger-core/tree/main/test). You could use it as an example project to learn Messenger.
