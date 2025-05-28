@@ -215,4 +215,12 @@ fadeOut color gd rd v =
 
 The common pattern is to put the next scene as the background and use an "alpha" value to control the transition scene.
 
+:::tip
+See [demo](https://github.com/elm-messenger/messenger-core/blob/main/test/src/Scenes/Transition/Model.elm).
+:::
+
 ## Asset Loading
+
+This GC is used to show an asset loading scene when there is a resource loading.
+
+Currently no options are required.

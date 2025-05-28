@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 6
 ---
 
 # Text
@@ -81,21 +81,21 @@ pnpm install msdf-bmfont-xml -g
 
 To generate a font asset, first prepare you font TTF file, _e.g._, `a.ttf`.
 
-Then, run the following command alongside the font file:
+Then, run the following command in your messenger project to import the font
 
 ```bash
-msdf-bmfont --smart-size --pot -d 2 -f json a.ttf
+messenger font <Your Font File> <Name>
 ```
 
-It should generate `a.png` and `a.json`. You should put those two files to your asset folder.
+The `name` option could be any name you want to reference in messenger.
 
-By default, the generator uses ASCII characters. If you are using non-ASCII characters, you need to prepare a text file indicating all the characters you want to include, and use `-i <your file.txt>` to specify the charset.
+By default, the generator uses ASCII characters. If you are using non-ASCII characters, you need to prepare a text file indicating all the characters you want to include, and use `--charset <your file.txt>` to specify the charset.
 
 :::tip
 If you need to minimize the asset size, you could consider:
 
-- Decrease the font size (`-s`). Default value is 42, which may be too large if you only need to render small texts.
-- Decrease distance range for SDF (`-r`). The default value is 4.
+- Decrease the font size (`--size`). Default value is 42, which may be too large if you only need to render small texts.
+- Decrease distance range for SDF (`--range`). The default value is 4.
 :::
 
 :::warning
@@ -107,8 +107,19 @@ After preparing the font assets, import them to your project at `src/Lib/Resourc
 ```elm
 allFont : ResourceDefs
 allFont =
-    [ ( "firacode", FontRes "assets/FiraCode-Regular.png" "assets/FiraCode-Regular.json" )
+    [ ( "firacode", FontRes "assets/fonts/firacode.png" "assets/fonts/firacode.json" )
     ]
 ```
 
 Include your font image and JSON file like above. Then you should be able to render text using name "firacode".
+
+## Manual font asset creation
+
+You could also directly use `msdf-bmfont` tool to create font asset. Example:
+
+```
+msdf-bmfont --smart-size --pot -d 2 -f json a.ttf
+
+```
+
+It should generate `a.png` and `a.json`. You should put those two files to your asset folder.

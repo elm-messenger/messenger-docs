@@ -7,11 +7,8 @@ sidebar_position: 1
 As mentioned before, Messenger uses _virtual coordinates_ to render. The transformation from virtual coordinates to real coordinates are mostly done in the shaders.
 The virtual coordinate system is supported by elm-regl, which makes the rendering process simpler for Messenger.
 
-:::tip
-If necessary (**very rare though**), users can use functions `posToReal`, `lengthToReal` from `Messenger.Coordinate.Coordinates` to manually transform coordinates.
-:::
-
-Messenger does not expose a camera system because currently it is still targeting 2D games. Therefore users need to implement the camera on demand.
+It also has a simple camera system that is able to transform, rotate and zoom the objects.
+Users could also implement their own camera if needed.
 
 The drawing style of Messenger is rather _declarative_. Declarative rendering has many benefits:
 
@@ -58,17 +55,3 @@ Structural drawing allows users to divide a big scene into several "layers" and 
 :::tip
 To render nothing, please use `REGL.empty` instead of `REGL.group [] []`.
 :::
-
-## First Drawing Command
-
-A common REGL drawing command is `clear`, which is to reset the colors on screen. `clear` also generates a renderable, so usually users write:
-
-```elm
-import REGL
-import REGL.BuiltinPrograms as P
-...
-REGL.group [] [
-    P.clear Color.white,
-    ...
-]
-```

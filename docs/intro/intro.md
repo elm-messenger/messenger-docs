@@ -10,8 +10,8 @@ Messenger is a 2D game engine for Elm based on WebGL. It provides an architectur
 
 Messenger has many cool features:
 
-- **Coordinate System Support**  
-  Messenger enforces uniform coordinate system for different screen sizes. Messenger is also adaptive to window size changes.
+- **WebGL-based renderer**  
+  Messenger uses a WebGL-based renderer, which is very performative and powerful.
 
 - **Separate User Code and Core Code**  
   User code and core code are separated. Any side effects are controlled by the Messenger core. This helps debugging and decreases security concerns.
@@ -27,3 +27,7 @@ Messenger has many cool features:
 
 - **Flexible Design**  
   The engine can be used in various ways, with separate management of different tasks. Components can be organized flexibly, allowing classification of portable and non-portable components in any preferred way.
+
+More than 60 users have used Messenger to create fantastic games. See [SilverFOCS](https://focs.ji.sjtu.edu.cn/silverfocs/) website.
+
+To see the capabilities of Messenger, play with the [core test](https://elm-messenger.github.io/elm-regl/Messenger.html). Its source code is at [here](https://github.com/elm-messenger/messenger-core/tree/main/test). You could use it as an example project to learn Messenger.

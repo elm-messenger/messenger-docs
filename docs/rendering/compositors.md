@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 9
 ---
 
 # Compositors
@@ -60,13 +60,4 @@ imgFade mask t invert src dst =
 -}
 linearFade : Float -> Renderable -> Renderable -> Renderable
 linearFade t src dst =
-```
-
-### `alpha`
-
-```elm
-{-| Set the alpha of a renderable. Only applicable to programs that support alpha field.
--}
-alpha : Float -> Renderable -> Renderable
-alpha a src =
 ```

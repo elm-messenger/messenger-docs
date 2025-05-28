@@ -1,18 +1,18 @@
 ---
-sidebar_position: 6
+sidebar_position: 8
 ---
 
 # Effects
 
 Effects are some visual effects applied after rendering a `REGL.group`. For example, we provide `gblur` effect which applies a [Gaussian Blur](https://en.wikipedia.org/wiki/Gaussian_blur) effect.
 
-```elm Example Code
+```elm
 import REGL
 import REGL.Effects as E
 
 view = REGL.group [ ] [
     A,
-    REGL.group [ E.gblur 10 ] [
+    REGL.group (E.gblur 3) [
         C, D
     ],
     B
@@ -21,29 +21,6 @@ view = REGL.group [ ] [
 
 In this example, A and B are two other renderables. A will be rendered first on the main "palette", C and D will be rendered using another new palette. The new palette will be applied with a `gblur` effect. C and D will be affected, A and B will not be affected.
 Then the new palette will be rendered to the main palette. Finally B will be rendered.
-
-Since C and D are rendered in a separate palette, you may want to set the background color to its parent, i.e.,
-
-```elm Example Code
-import REGL
-import REGL.Programs as P
-import REGL.Effects as E
-
-view = REGL.group [] [
-    P.clear Color.black,
-    A,
-    REGL.group [ E.gblur 10 ] [
-        P.clear Color.black,
-        C, D
-    ],
-    B
-]
-```
-
-However, since the new palette cannot see the original palette, `gblur` cannot detect A. You may want the blurring effect to also capture the surrounding existing objects.
-Using effect alone cannot solve this problem because it can be only applied to one renderable.
-
-This feature could be achieved using [Compositors](./compositors.md) as compositors are designed for manipulate multiple renderables.
 
 ## Multiple Effects
 
@@ -82,7 +59,7 @@ Here C will be first applied with effect B, then applied with effect A.
 Simple blur effects.
 
 ```elm
-blur : Float -> Effect
+blur : Float -> List Effect
 blur radius =
 ```
 
@@ -96,7 +73,7 @@ alphamult a =
 ```
 
 :::warning
-Using this effect to set the alpha of a single renderable may be slow. Use `alpha` from compositors instead to set alpha if possible (for example, set the alpha of a circle).
+Using this effect to set the alpha of a single renderable may be slow. Use rendering commands with `alpha` to set alpha for texture rendering.
 :::
 
 ### `fxaa`
@@ -113,7 +90,7 @@ fxaa =
 Applies Gaussian Blur.
 
 ```elm
-gblur : Float -> Effect
+gblur : Float -> List Effect
 gblur sigma =
 ```
 

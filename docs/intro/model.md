@@ -21,12 +21,12 @@ Messenger manages the game through three levels of abstraction (users can create
 Parent levels can hold child levels, while child levels can send messages to parent levels. Messages can also be sent within a level between different objects.
 
 :::tip
-A scene may not have any layer (called a _raw_ scene) and a layer may not contain any components.
+A scene may have no layer (called a _raw_ scene) and a layer may contain no components.
 However, a layer must be attached to a scene.
 :::
 
 :::tip Advanced Tip
-To run multiple scenes at once, users could use the [VSR](../advanced/vsr) technique to emulate a scene.
+To run multiple scenes simultaneously, users could use the [VSR](../advanced/vsr) technique to emulate a scene.
 :::
 
 ## General Model
