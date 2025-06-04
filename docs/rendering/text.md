@@ -84,17 +84,17 @@ To generate a font asset, first prepare you font TTF file, _e.g._, `a.ttf`.
 Then, run the following command in your messenger project to import the font
 
 ```bash
-messenger font <Your Font File> <Name>
+messenger font <Your Font File> -n <Name>
 ```
 
 The `name` option could be any name you want to reference in messenger.
 
-By default, the generator uses ASCII characters. If you are using non-ASCII characters, you need to prepare a text file indicating all the characters you want to include, and use `--charset <your file.txt>` to specify the charset.
+By default, the generator uses ASCII characters. If you are using non-ASCII characters, you need to prepare a text file indicating all the characters you want to include, and use `-i <your file.txt>` to specify the charset.
 
 :::tip
 If you need to minimize the asset size, you could consider:
 
-- Decrease the font size (`--size`). Default value is 42, which may be too large if you only need to render small texts.
+- Decrease the font size (`-s`). Default value is 40, which may be too large if you only need to render small texts.
 - Decrease distance range for SDF (`--range`). The default value is 4.
 :::
 
@@ -113,13 +113,38 @@ allFont =
 
 Include your font image and JSON file like above. Then you should be able to render text using name "firacode".
 
-## Manual font asset creation
+## Manual Font Asset Creation
 
 You could also directly use `msdf-bmfont` tool to create font asset. Example:
 
 ```
 msdf-bmfont --smart-size --pot -d 2 -f json a.ttf
+```
+
+You could run `msdf-bmfont --help` to see detailed explanation of the options.
+
+It should generate `a.png` and `a.json`. You should put those two files to your asset folder.
+
+## Multiple Font in One Texture (MFOT) and Fallback Font
+
+It is common that some characters may be missing from a font, especially non-ascii characters. In that case, users may want to use multiple font in one texture feature.
+
+This feature enables users to use different font in a single draw command (*e.g.*, `textboxMF`). This is especially benefinial for using fallback font.
+
+Elm-regl provides several functions to support Multiple Font (MF) textbox rendering. The simplest one is `textboxMF`:
 
 ```
 
-It should generate `a.png` and `a.json`. You should put those two files to your asset folder.
+```
+
+The `fonts` option is the list of font that you want to use when rendering the text, whose priority descends. For example, if the `fonts` is `[ "a", "b" ]`, and my text is "x y". "x" is only available in font a while "y" is only available in font "b" and " " is available in both fonts. The renderer will use font a to draw "x" and " ", and use font b to draw "y".
+
+To use multiple fonts, users must specify two fonts in `allFont`. The fonts in all multi-font commands must have the same texture (otherwise they will not be able to drawn using the same texture). So the following configuration is valid:
+
+```elm
+```
+
+while this is invalid:
+
+```elm
+```
