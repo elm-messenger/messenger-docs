@@ -4,6 +4,10 @@ sidebar_position: 2
 
 # Example: Space Shooter
 
+:::warning
+Work in Progress. The example is deprecated.
+:::
+
 The source code is available at [messenger examples](https://github.com/linsyking/messenger-examples/tree/main/spaceshooter).
 
 Now let's design a space shooter game that has several levels but with the same type of player and enemy with different parameters.

@@ -225,8 +225,6 @@ However, this method doesn't work in some cases, especially when a new component
 
 Users can decide the z-index dynamically based on data or environment in the `view` function. Take the previous issue for example, the requirement can be implemented by adding a new value `order` in `data` which determines the z-index.
 
-The source code in this part can be found [here](https://github.com/linsyking/messenger-examples/tree/main/layers).
-
 ## Parent Interfaces
 
 In some situations, the parent of components may need to operate on them directly, without message passing, to avoid unnecessary redundancy and latency. For example, deleting a component or accessing its position.

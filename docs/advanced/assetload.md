@@ -4,6 +4,11 @@ sidebar_position: 3
 
 # Initial Asset Loading Scene
 
+:::warning
+Work in Progress. The example is deprecated.
+Use the [asset loading GC](../advanced/gc.md) instead.
+:::
+
 Users may want to have an asset loading scene just like what Reweave does.
 
 When Messenger is loading assets, `update` of the initial scene will not be called. All the user input and events are ignored. However, `view` will be called. `globalTime` and `currentTimeStamp` will be updated but `sceneStartTime` will not be updated.
