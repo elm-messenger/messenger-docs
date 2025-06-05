@@ -41,7 +41,7 @@ However, if you want to render multi-line paragraph or uses bold or italic style
 ```elm
 {-| Full TextBox options.
 
-  - `fonts`: A prioritized list of font family names (e.g. ["Roboto", "sans-serif"]).
+  - `fonts`: A prioritized list of font names (e.g. ["Roboto", "sans-serif"]).
   - `text`: The actual text content to render.
   - `size`: The font size in virtual canvas size.
   - `color`: The color of the text.

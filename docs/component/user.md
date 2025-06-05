@@ -4,72 +4,79 @@ sidebar_position: 3
 
 # User Components
 
+:::tip
+The final output of this example could be found [here](https://github.com/elm-messenger/messenger-core/tree/main/test/src/Scenes/Components).
+:::
+
 User components are the components that are mostly used. A user component should be attached to a specific scene, then it can only be used in that scene.
 
 To understand the usage of the components better, let's make an example.
 
 ```bash
-# Create a new scene named Game
-messenger scene Game
+# Create a new scene named Components
+messenger scene Components
 
-# Create a new type of component in Game scene
-messenger component Game Comp
+# Create a new type of component in Components scene
+messenger component -i Components Rect
 
-# Create a new layer with components in Game Scene
-messenger layer -c Game A
+# Create a new layer with components in Components Scene
+messenger layer -c Components A
 ```
 
-In addition to setting the data type of `Comp`, it is necessary to set the data type for initializing a `Comp`. Since we would like to determine the position, size and color when initializing, add codes in `Scenes/Home/Components/ComponentBase.elm`:
+`-i` argument automatically creates a `Init.elm` file for the component to store the initialization data type.
+
+
+In addition to setting the data type of `Rect`, it is necessary to set the data type for initializing a `Rect`. For simplicity, here we assume that the initialization data type is the same as the actual data type of `Rect`.
+Since we would like to determine the position, size, ID and color when initializing, we could add codes in `Scenes/Components/Components/Rect/Init.elm`:
 
 ```elm
-type alias Init =
+type alias InitData =
     { left : Float
     , top : Float
     , width : Float
     , height : Float
-    , color : Color
-    }
-type alias Data =
-    { left : Float
-    , top : Float
-    , width : Float
-    , height : Float
+    , id : Int
     , color : Color
     }
 ```
 
-Then add the message type for initialization in `ComponentMsg`.
+Then add the message type for initialization in `ComponentMsg`:
 
-However, the data set in `ComponentBase.elm` will be applied to all types of components. So it is a choice to set the init data and message type for every single type of component. Users can create a file named `Init.elm` in `Scene/Home/Components/Comp` to store them separately. Users can also use the option `--init` or `-i` to do this when creating the component. Don't forget to import it in `ComponentBase.elm`.
+```elm title="ComponentBase.elm"
+import Scenes.Components.Components.Rect.Init as RectInit
 
-```bash
-messenger component -i Game Comp
+{-| Component message
+-}
+type ComponentMsg
+    = RectInit RectInit.InitData
+    | NullComponentMsg
+
+{-| Component target
+-}
+type alias ComponentTarget =
+    Int
 ```
 
-Then draw a rectangle based on the component data in the `view` function. But it will not be rendered on screen now since it has not been added to any layer yet. So let's add two components when initializing the layer and render them using `viewComponents`:
+Note that we changed `ComponentTarget` to `Int` because we want to distinguish each rectangle with an ID.
 
-```elm
-import Scenes.Home.Components.Comp.Model as Rect
-import Scenes.Home.Components.Comp.Msg as RectMsg
+Then draw a rectangle based on the component data in the `view` function. But it will not be rendered on screen now since it has not been added to any layer yet. So let's add two components when initializing the layer A and render them using `viewComponents`:
+
+```elm title="Scenes/Components/A/Model.elm"
+import Scenes.Components.Components.ComponentBase exposing (BaseData, ComponentMsg(..), ComponentTarget)
+import Scenes.Components.Components.Rect.Init as RectInit
+import Scenes.Components.Components.Rect.Model as Rect
+
 ...
-type alias Data =
-    { components : List (AbstractComponent SceneCommonData UserData ComponentTarget ComponentMsg BaseData SceneMsg)
-    }
+
 init : LayerInit SceneCommonData UserData LayerMsg Data
 init env initMsg =
     Data
-        [ Rect.component ( RectangleInit <| RectMsg.Init 150 150 200 200 Color.blue ) env
-        , Rect.component ( RectangleInit <| RectMsg.Init 200 200 200 200 Color.red ) env
+        [ Rect.component (RectInit <| RectInit.InitData 150 150 200 200 0 Color.blue) env
+        , Rect.component (RectInit <| RectInit.InitData 200 200 200 200 1 Color.red) env
         ]
-...
-view : LayerView SceneCommonData UserData Data
-view env data =
-    viewComponents env data.components
 ```
 
-Note that `Data` and `view` function has been provided.
-
-Now one red rectangle on a blue one on screen.
+Now one red rectangle on a blue rectangle is on the screen.
 
 Then try to add a simple logic that when you left-click the rectangle, it turns black:
 
@@ -88,8 +95,6 @@ update env evnt data basedata =
             ( ( data, basedata ), [], ( env, False ) )
 ```
 
-Then update all the components in the layer using `updateComponents`, which has been done in `A/Model.elm` by default.
-
 ## Message Blocking
 
 Our code seems to work well when we click the non-overlapping part of the two rectangles. But when we click the overlapping part of them, both of them turn black, which is not expected. The issue has been mentioned in [events](../event). So we can solve this problem by changing the block value from `False` to `True`.
@@ -101,7 +106,7 @@ Our code seems to work well when we click the non-overlapping part of the two re
 What if we add a layer `B` to the scene? Create a new layer B:
 
 ```bash
-messenger layer -c Game B
+messenger layer -c Components B
 ```
 
 Then add it to the scene. Note to put `B` before `A` in the layer list so that layer `A` will update before `B` and render after `B`. See [layers](../helloworld/order) and [events](../event).
@@ -110,16 +115,28 @@ Add two rectangle components to `B` in position (100, 100) and (250, 250) with s
 
 ## Message Communication
 
-The work we did until now is just to update the component itself. But how to communicate with other components and layers? Let's add a logic that when the user clicks one rectangle, the color of the other one turns green.
+The work we did until now is just to update the component itself. But how to communicate with other components and layers? Let's add a logic that when the user clicks one rectangle, the color of the next one turns green.
 
-First of all, setting a message type in `Components/Comp/Init.elm` is necessary. Since the only message needed to pass is the color to change, add:
+First of all, create a file `Components/Rect/Msg.elm` to store message types for `Rect`. Since the only message needed to pass is the color to change, add:
 
-```elm
+```elm title="Components/Rect/Msg.elm"
+import Color
 type alias Msg =
-    Color
+    Color.Color
 ```
 
-Then add it to `ComponentMsg` in `ComponentBase.elm`. How a component reacts to the messages is determined in `updaterec`:
+Then add it to `ComponentMsg` in `ComponentBase.elm`:
+
+
+```elm title="Updated ComponentBase.elm"
+import Scenes.Components.Components.Rect.Msg as RectMsg
+type ComponentMsg
+    = RectInit RectInit.InitData
+    | RectMsg RectMsg.RectMsg
+    | NullComponentMsg
+```
+
+How a component reacts to the messages is determined by `updaterec`:
 
 ```elm
 updaterec : ComponentUpdateRec SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
@@ -132,9 +149,10 @@ updaterec env msg data basedata =
             ( ( data, basedata ), [], env )
 ```
 
-Since the message is going to be sent from one component to the other, the target and matcher system need to be improved. An id can be added for every component to identify themselves. Let's add `id : Int` in `Data` and `InitData`. Then change the `ComponentTarget` type into `Int`, and modify the `matcher`:
+Since the message is going to be sent from one component to the other, the target and matcher need to be changed.
+Modify the `matcher` for the component:
 
-```elm
+```elm title="Rect/Model.elm"
 matcher : ComponentMatcher Data BaseData ComponentTarget
 matcher data basedata tar =
     tar == data.id
@@ -143,19 +161,7 @@ matcher data basedata tar =
 The `update` function also needs to be updated so that it can send a message to other components when the mouse left-clicks.
 
 ```elm
-  ( ( { data | color = Color.black }, basedata )
-  , List.filterMap
-      (\n ->
-          if n /= data.id then
-              Just <| Other ( n, RectangleMsg green )
-
-          else
-              Nothing
-      )
-    <|
-      List.range 0 1   -- use 0 1 because there are just 2 components
-  , ( env, True )
-  )
+( ( { data | color = Color.black }, basedata ), [ Other ( data.id + 1, RectMsg Color.green ) ], ( env, True ) )
 ```
 
 Run `make` and see the result now!
@@ -168,9 +174,28 @@ Now the issue is to communicate between layer and component. Sending a message t
 
 ![](/img/comp1.jpg)
 
-Therefore, a handler for the messages from components should be added. We can simply modify the handler provided by default:
+Therefore, a handler for the messages from components should be added.
+
+First, create a new message type for communication between component and the layer in `Msg.elm`:
+
+```elm title="Rect/Msg.elm"
+type alias RectReportMsg =
+    Int
+```
+
+And add that to `ComponentMsg`:
 
 ```elm
+type ComponentMsg
+    = RectInit RectInit.InitData
+    | RectMsg RectMsg.RectMsg
+    | RectReportMsg RectMsg.RectReportMsg
+    | NullComponentMsg
+```
+
+Finally we can simply modify the handler provided by default:
+
+```elm title="A/Model.elm"
 handleComponentMsg : Handler Data SceneCommonData UserData LayerTarget LayerMsg SceneMsg ComponentMsg
 handleComponentMsg env compmsg data =
     case compmsg of
@@ -179,16 +204,17 @@ handleComponentMsg env compmsg data =
 
         OtherMsg msg ->
             case msg of
-                RectangleMsg color ->
+                RectReportMsg rm ->
                     let
                         _ =
-                            Debug.log "msg" color
+                            Debug.log "RectReportMsg" rm
                     in
                     ( data, [], env )
 
                 _ ->
                     ( data, [], env )
 ```
+
 In this way, components and their parent layer can communicate easily.
 
 ## z-index 
@@ -226,5 +252,9 @@ To write a function that checks whether a component is of type "Enemy":
 :::note
 Most of the time message passing is sufficient for interaction between a component and its parent. Avoid overusing `baseData` for easy accessibility.
 
-Baiscally, base data is designed to pass shared-typed data easily without encoding and decoding. And `baseData` interface is intended for performing operations across all components.
+`baseData` is type-shared but data-independent. `commonData` is type-shared and data-shared.
+
+For `baseData`, each component gets a copy of the data, but for `commonData`, all components share the same data.
+
+`baseData` interface is intended for performing operations across all components.
 :::
