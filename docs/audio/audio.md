@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Audio System
 
-Messenger provides a *stateful* audio player, which is based on a Javascript audio player and its [elm wrapper](MartinSStewart/elm-audio).
+Messenger provides a *stateful* audio player, which is based on a Javascript audio player and its [elm wrapper](https://package.elm-lang.org/packages/MartinSStewart/elm-audio/latest/).
 
 Like text and texture rendering, audio also needs resource files in `Resources.elm`. Before playing any audio, please define them in `allAudio`:
 
