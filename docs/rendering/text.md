@@ -134,7 +134,10 @@ This feature enables users to use different font in a single draw command (*e.g.
 Elm-regl provides several functions to support Multiple Font (MF) textbox rendering. The simplest one is `textboxMF`:
 
 ```
-
+{-| Render a textbox with multiple fonts.
+-}
+textboxMF : ( Float, Float ) -> Float -> String -> List String -> Color -> Renderable
+textboxMF ( x, y ) size text fonts color =
 ```
 
 The `fonts` option is the list of font that you want to use when rendering the text, whose priority descends. For example, if the `fonts` is `[ "a", "b" ]`, and my text is "x y". "x" is only available in font a while "y" is only available in font "b" and " " is available in both fonts. The renderer will use font a to draw "x" and " ", and use font b to draw "y".
@@ -142,9 +145,35 @@ The `fonts` option is the list of font that you want to use when rendering the t
 To use multiple fonts, users must specify two fonts in `allFont`. The fonts in all multi-font commands must have the same texture (otherwise they will not be able to drawn using the same texture). So the following configuration is valid:
 
 ```elm
+allFont : ResourceDefs
+allFont =
+    [ ( "a", FontRes "assets/a.png" "assets/a.json" ),
+      ( "b", FontRes "assets/a.png" "assets/b.json" )
+    ]
 ```
 
 while this is invalid:
 
 ```elm
+allFont : ResourceDefs
+allFont =
+    [ ( "a", FontRes "assets/a.png" "assets/a.json" ),
+      ( "b", FontRes "assets/b.png" "assets/b.json" )
+    ]
 ```
+
+But how to make a texture that contains characters from multiple fonts?
+
+Messenger provides this feature in the `font` command.
+
+It allows you to input multiple font files, for example:
+
+```bash
+messenger font a.ttf -n a -s 36 -i a.txt b.ttf -n b -i b.txt c.ttf -n c
+```
+
+This command will import three TTF files and combine them into one single texture. The font `a` will have size 36 with charset from `a.txt`, font `b` will have charset from `b.txt`. You may use different charset for each font.
+
+:::tip
+The `--range` argument is applied globally on one texture.
+:::
