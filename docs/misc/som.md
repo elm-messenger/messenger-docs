@@ -18,59 +18,23 @@ This message is used to change to another scene. Users need to provide the scene
 
 This message is used to play an audio. It has three parameters: channel ID, audio name, and audio option. The channel ID is where this audio will be played. There might be multiple audios playing on the same channel. Audio name is what users define in the keys of `allAudio`.
 
-`AudioOption` is defined in `Messenger.Audio.Base.elm`:
-
-```elm
-type AudioOption
-    = ALoop
-    | AOnce
-```
-
-- `ALoop` means the audio will be played repeatedly.
-- `AOnce` means the audio will be played only once.
-
-### Example
-
-Suppose we have two audio files `assets/bg.ogg` and `assets/se.ogg`.
-
-First, we need to import them into our project, so edit `Lib/Resources.elm`:
-
-```elm
-allAudio : Dict.Dict String String
-allAudio =
-    Dict.fromList
-        [ ( "bg", "assets/bg.ogg" )
-        , ( "se", "assets/se.ogg" )
-        ]
-```
-
-This is very similar to `allTexture`.
-
-After that, we decide to use 0 as the background music channel and 1 as the sound effect channel.
-
-Then, when we want to play the background music `bg`, emit:
-
-```elm
-SOMPlayAudio 0 "bg" ALoop
-```
-
-And when we want to play the sound effect `se`, emit:
-
-```elm
-SOMPlayAudio 1 "se" AOnce
-```
-
-:::tip
-Users can use `newAudioChannel` to generate a unique channel ID.
-:::
+See [Audio Basics](../audio/basics.md) for more details.
 
 ## `SOMStopAudio`
 
-**Definition:** `SOMStopAudio Int`
+**Definition:** `SOMStopAudio AudioTarget`
 
-This message is used to stop a channel. The parameter is the channel ID. If there are multiple audios playing on a channel, all of them will be stopped.
+Stops a playing audio stream.
+
+See [Audio Basics](../audio/basics.md) for more details.
 
 ## `SOMTransformAudio`
+
+**Definition:** `SOMTransformAudio AudioTarget (Audio -> Audio)`
+
+Transforms the audio on the fly.
+
+See [Audio Transformation](../audio/transform.md) for more details.
 
 ## `SOMAlert`
 
@@ -112,7 +76,15 @@ See [Global Component](../advanced/gc).
 
 ## `SOMChangeFPS`
 
+**Definition:** `SOMChangeFPS REGL.TimeInterval`
+
+Change FPS on the fly.
+
 ## `SOMLoadResource`
+
+**Definition:** `SOMLoadResource String ResourceDef`
+
+Dynamically load a resource at runtime.
 
 ## Game Configurations
 

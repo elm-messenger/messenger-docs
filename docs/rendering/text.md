@@ -133,7 +133,7 @@ This feature enables users to use different font in a single draw command (*e.g.
 
 Elm-regl provides several functions to support Multiple Font (MF) textbox rendering. The simplest one is `textboxMF`:
 
-```
+```elm
 {-| Render a textbox with multiple fonts.
 -}
 textboxMF : ( Float, Float ) -> Float -> String -> List String -> Color -> Renderable

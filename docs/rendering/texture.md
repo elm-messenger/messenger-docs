@@ -20,7 +20,7 @@ The second element is the texture resource definition.
 
 `TextureRes` takes an image path and texture options.
 
-Usually users could use default texture options (`Nothing`), however, if users are creating pixel art, they should choose a different option.
+Usually users could use default texture options (`Nothing`), however, if users are creating pixel art, they should choose a different option (see below).
 
 The texture option is defined by:
 
@@ -46,7 +46,9 @@ type TextureMinOption
 
 Use `Nothing` to use the default value.
 
+:::tip
 If users need to use pixel art, use `MagNearest` and `MinNearest`.
+:::
 
 `crop` means to crop the image. This is usually used for sprite sheet.
 

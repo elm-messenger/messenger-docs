@@ -21,7 +21,3 @@ Unify the rendering and the audio system.
 ## Asset Manager
 
 Design a better asset manager that helps manage all the assets, including audios, images, and other data.
-
-## On-demand Asset Loading
-
-Users can load or pre-load assets when they want to, not at the beginning of the game.
