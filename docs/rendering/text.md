@@ -40,20 +40,58 @@ However, if you want to render multi-line paragraph or uses bold or italic style
 
 ```elm
 {-| Full TextBox options.
+
+  - `fonts`: A prioritized list of font family names (e.g. ["Roboto", "sans-serif"]).
+  - `text`: The actual text content to render.
+  - `size`: The font size in virtual canvas size.
+  - `color`: The color of the text.
+  - `wordBreak`: Whether long words should break across lines (`True`) or overflow (`False`).
+  - `thickness`: Optional stroke thickness for the text (if supported by the renderer).
+  - `italic`: Optional italic shift.
+  - `width`: Optional maximum width of the text box. Used to wrap text.
+  - `lineHeight`: Optional line height, as a multiplier of font size.
+  - `wordSpacing`: Optional spacing between words, in spaces.
+  - `align`: Optional horizontal alignment of text (`"left"`, `"center"`, `"right"`).
+  - `tabSize`: Optional width of a tab character, in spaces.
+  - `valign`: Optional vertical alignment of text block (`"top"`, `"center"`, `"bottom"`).
+  - `letterSpacing`: Optional spacing between letters, in virtual canvas size.
+
 -}
 type alias TextBoxOption =
-    { font : String
+    { fonts : List String
     , text : String
     , size : Float
     , color : Color
-    , wordBreak : Bool -- Whether allowed to break words when changing the line
+    , wordBreak : Bool
     , thickness : Maybe Float
     , italic : Maybe Float
-    , width : Maybe Float -- Testbox width
-    , lineHeight : Maybe Float -- Height for each line
-    , wordSpacing : Maybe Float -- Spacing between words
-    , align : Maybe String -- Align to left, center, or right
-    , letterSpacing : Maybe Float -- Spacing between letters
+    , width : Maybe Float
+    , lineHeight : Maybe Float
+    , wordSpacing : Maybe Float
+    , align : Maybe String
+    , tabSize : Maybe Float
+    , valign : Maybe String
+    , letterSpacing : Maybe Float
+    }
+
+{-| Default TextBox options.
+-}
+defaultTextBoxOption : TextBoxOption
+defaultTextBoxOption =
+    { fonts = [ "consolas" ]
+    , text = ""
+    , size = 24
+    , color = Color.black
+    , wordBreak = False
+    , thickness = Nothing
+    , italic = Nothing
+    , width = Nothing
+    , lineHeight = Nothing
+    , wordSpacing = Nothing
+    , align = Nothing
+    , tabSize = Nothing
+    , valign = Nothing
+    , letterSpacing = Nothing
     }
 
 {-| Render a textbox with more options.
@@ -66,6 +104,15 @@ textboxPro ( x, y ) opt =
 Here `thickness` and `italic` are floats so users could specify how much they want to apply that style. The effect is done through shaders and linear transformation so it is not as accurate as the font's own variants.
 
 Multi-line rendering can be enabled by using `Just <width>` in the `width` field. `Nothing` means infinity length.
+
+There is also a centered `textbox` command:
+
+```elm
+{-| Render a textbox, centered.
+-}
+textboxCentered : ( Float, Float ) -> Float -> String -> String -> Color -> Renderable
+textboxCentered ( x, y ) size text font color =
+```
 
 ## Custom Font
 
