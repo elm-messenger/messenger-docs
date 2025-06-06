@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # SOM Calls
 
-`SOMMsg`s are top-level APIs (like system calls in OS) that can directly interact with the core. Users can send `SOMMsg` in any general model.
+`SOMMsg`s are low-level APIs (like system calls in OS) that can directly interact with the core. Users can send `SOMMsg` in any general model.
 
 ## `SOMChangeScene`
 

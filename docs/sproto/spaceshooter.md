@@ -214,11 +214,7 @@ view env data basedata =
         gd =
             env.globalData.internalData
     in
-    ( Canvas.shapes [ fill data.color ]
-        [ roundRect (posToReal gd basedata.position) (lengthToReal gd 20) (lengthToReal gd 10) [ 10, 10, 10, 10 ]
-        ]
-    , 0
-    )
+    ( rect basedata.position (20, 10) data.color, 0 )
 
 matcher data basedata tar =
     tar == Type basedata.ty || tar == Id basedata.id
