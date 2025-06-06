@@ -56,3 +56,22 @@ groupWithCamera camera1 [
 ```
 
 You could use the default camera (UI camera) by calling `defaultCamera` from `Messenger.Coordinate.Camera`.
+
+## Manual Coordinate System Transformation
+
+In some cases, users may want to manually transform a coordinate in world space to view space, or vice versa. Messenger provides two handy functions in `Messenger.Coordinate.Camera`:
+
+```elm
+{-| Tranform a position from the world coordinate system to the view (camera) coordinate system.
+-}
+worldToView : Camera -> ( Float, Float ) -> ( Float, Float )
+worldToView camera ( x, y ) =
+
+{-| Transform a position from the view coordinate system to the world coordinate system.
+
+This is the inverse of `worldToView`.
+
+-}
+viewToWorld : Camera -> ( Float, Float ) -> ( Float, Float )
+viewToWorld camera ( x, y ) =
+```

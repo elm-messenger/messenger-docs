@@ -5,11 +5,10 @@ sidebar_position: 3
 # Initial Asset Loading Scene
 
 :::warning
-Work in Progress. The example is deprecated.
-Use the [asset loading GC](../advanced/gc.md) instead.
+You may want to use the [asset loading GC](../advanced/gc.md) instead. It automatically handles the asset loading scene for you.
 :::
 
-Users may want to have an asset loading scene just like what Reweave does.
+Users may want to have an asset loading scene when the game starts.
 
 When Messenger is loading assets, `update` of the initial scene will not be called. All the user input and events are ignored. However, `view` will be called. `globalTime` and `currentTimeStamp` will be updated but `sceneStartTime` will not be updated.
 
@@ -18,6 +17,7 @@ Moreover, users can get the number of loaded assets by using the `loadedResource
 An example:
 
 ```elm
+import REGL.BuiltinPrograms as P
 startText : GlobalData UserData -> Renderable
 startText gd =
     let
@@ -37,9 +37,8 @@ startText gd =
             else
                 "Click to start"
     in
-    group [ alpha (0.7 + sin (toFloat gd.globalTime / 10) / 3) ]
-        [ renderTextWithColorCenter gd 60 text "Arial" Color.black ( 960, 900 )
+    group []
+        [ P.textboxCentered ( 960, 900 ) 60 text "Arial" Color.black 
         ]
 ```
 
-The full example is in [messenger examples](https://github.com/linsyking/messenger-examples/tree/main/spritesheet).

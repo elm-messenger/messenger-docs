@@ -22,3 +22,7 @@ initGlobalData : String -> UserViewGlobalData UserData
 The string it needs is the real local storage data. Users will use the local storage data to initialize global data.
 
 `saveGlobalData` is called when the user wants to save the global data (emitted by a `SOMSaveGlobalData` message). Users may encode some part of global data.
+
+:::tip
+Also see [tetris](https://github.com/elm-messenger/messenger-core/tree/main/test/src/Scenes/Tetris) example to learn how to use localStorage in Messenger. The userdata is defined at [UserData.elm](https://github.com/elm-messenger/messenger-core/blob/main/test/src/Lib/UserData.elm).
+:::

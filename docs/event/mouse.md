@@ -22,6 +22,10 @@ The parameters of `MouseDown` and `MouseUp` represent `button` and `position`.
 
 - `position` represents the virtual coordinate of the mouse.
 
+:::tip
+Current position of the mouse could also be got from `globalData.mousePos`.
+:::
+
 ## `MouseWheel`
 
 **Definition:** `MouseWheel Int`
@@ -32,6 +36,10 @@ The parameter represents the vertical scroll amount `delta`, which corresponds t
 Users can use `judgeMouseRect` in `Messenger.Coordinate.Coordinates` to check whether the mouse is in a rectangle.
 
 The mouse coordinate is not transformed through the camera, so it is using the default UI camera starting from (0, 0) to (virtWidth, virtHeight).
+
+To judge whether the mouse position is in a rectangle defined in a non-UI camera, users could use `judgeMouseRectWithCamera` to check.
+
+To judge whether mouse is within a circle, use `judgeMouseCircle`. Users could also write there own `judge` functions.
 :::
 
 :::note
