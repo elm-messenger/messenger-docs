@@ -22,10 +22,10 @@ startText : GlobalData UserData -> Renderable
 startText gd =
     let
         loaded =
-            loadedResourceNum gd
+            globalData.internalData.loadedResNum
 
         total =
-            resourceNum resources
+            globalData.internalData.totResNum
 
         progress =
             String.slice 0 4 <| String.fromFloat (toFloat loaded / toFloat total * 100)
@@ -41,4 +41,3 @@ startText gd =
         [ P.textboxCentered ( 960, 900 ) 60 text "Arial" Color.black 
         ]
 ```
-
