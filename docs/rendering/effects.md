@@ -76,6 +76,15 @@ alphamult a =
 Using this effect to set the alpha of a single renderable may be slow. Use rendering commands with `alpha` to set alpha for texture rendering.
 :::
 
+### `colormult`
+
+Multiply the color of the renderable with `rgba`.
+
+```elm
+alphamult : Float -> Float -> Float -> Float -> Effect
+alphamult r g b a =
+```
+
 ### `fxaa`
 
 Applies Fast approximate anti-aliasing (FXAA) to the renderable.
@@ -101,6 +110,17 @@ Applies the CRT effect. Must be applied outermost. `count` is the number of scan
 ```elm
 crt : Float -> Effect
 crt count =
+```
+
+### `pixilation`
+
+Applies the pixilation effect. `ps` is the number of pixels that will be considered as a same pixel on the screen.
+
+```elm
+{-| Apply pixilation effect to a renderable.
+-}
+pixilation : Float -> Effect
+pixilation ps =
 ```
 
 :::tip
