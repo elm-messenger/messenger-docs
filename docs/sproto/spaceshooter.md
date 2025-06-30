@@ -4,11 +4,7 @@ sidebar_position: 2
 
 # Example: Space Shooter
 
-:::warning
-Work in Progress. The example is deprecated.
-:::
-
-The source code is available at [messenger examples](https://github.com/linsyking/messenger-examples/tree/main/spaceshooter).
+The source code is available at [messenger core test](https://github.com/elm-messenger/messenger-core/tree/main/test/src/SceneProtos/Spaceshooter).
 
 Now let's design a space shooter game that has several levels but with the same type of player and enemy with different parameters.
 
@@ -209,12 +205,13 @@ updaterec env msg data basedata =
 For `view`, we render a round rectangle with a given color. The `matcher` can match both `Id` and `Type`.
 
 ```elm
+import REGL.BuiltinPrograms as P
 view env data basedata =
     let
         gd =
             env.globalData.internalData
     in
-    ( rect basedata.position (20, 10) data.color, 0 )
+    ( P.rect basedata.position (20, 10) data.color, 0 )
 
 matcher data basedata tar =
     tar == Type basedata.ty || tar == Id basedata.id

@@ -256,3 +256,7 @@ For `baseData`, each component gets a copy of the data, but for `commonData`, al
 
 `baseData` interface is intended for performing operations across all components.
 :::
+
+:::note
+`baseData` could be read by `unroll` an abstract component. However, you cannot modify a component's `baseData` by changing it using `unroll` and `Roll`. It does not work as you expected. We may add a feature to correctly modify `baseData` in the future for convenience, but for now, please still send a message to the component and modify the component inside the update handler of the component.
+:::
