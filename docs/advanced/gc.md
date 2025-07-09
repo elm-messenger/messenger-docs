@@ -187,7 +187,7 @@ SOMLoadGC (Transition.genGC (Transition.InitOption (genTransition ( fadeOutTrans
 
 The result is "A" is fading out while "B" is fading in. Two scenes are running at the same time. Scene "A" could still receive user events and send `SOMMsg`s.
 
-The examples are [here](https://github.com/linsyking/messenger-core/blob/master/test/src/Scenes/Home2/Model.elm).
+The examples are [here](https://github.com/linsyking/messenger-core/blob/main/test/src/Scenes/Home2/Model.elm).
 
 ### Transition Implementing
 
