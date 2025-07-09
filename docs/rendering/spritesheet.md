@@ -115,3 +115,7 @@ view env data =
         , renderSprite id ( 1500, 300 ) ( 100, 0 ) ("char7" ++ currentAct 7)
         ]
 ```
+
+The result is like:
+
+![](/img/spritesheet.png)
