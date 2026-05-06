@@ -13,11 +13,11 @@ For example, [pipx](https://pipx.pypa.io/stable/) is a tool to manage python app
 
 ```bash
 # pipx:
-pipx install -i https://pypi.python.org/simple elm-messenger>=0.5.3
+pipx install -i https://pypi.python.org/simple elm-messenger>=0.6.0
 # uv:
-uv tool install -i https://pypi.python.org/simple elm-messenger>=0.5.3
+uv tool install -i https://pypi.python.org/simple elm-messenger>=0.6.0
 # Or use pip on Windows:
-pip install -i https://pypi.python.org/simple elm-messenger>=0.5.3
+pip install -i https://pypi.python.org/simple elm-messenger>=0.6.0
 ```
 
 This tool is helpful in quickly building a project. To create a new project, use the following commands:

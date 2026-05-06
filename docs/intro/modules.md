@@ -13,7 +13,7 @@ There are several modules (sub-projects) within the Messenger project. All devel
 - [Elm REGL](https://github.com/elm-messenger/elm-regl): Rendering backend
 
 :::note
-This doc is compatible with core `17.1.0`, elm-regl `9.1.0`, templates and CLI `0.5.3`.
+This doc is compatible with core `17.1.3`, elm-regl `10.0.0`, templates and CLI `0.6.0`.
 :::
 
 ## Update Messenger
@@ -23,7 +23,7 @@ If you are using a messenger version that is not listed here, you may update you
 **Install latest Messenger CLI**
 
 ```bash
-pipx install -i https://pypi.python.org/simple elm-messenger>=0.5.3
+pipx install -i https://pypi.python.org/simple elm-messenger>=0.6.0
 ```
 
 **Remove `.messenger` in your messenger project**
@@ -38,8 +38,8 @@ rm -rf .messenger
 Edit your `elm.json`, change the following packages to the latest version:
 
 ```json
-"linsyking/elm-regl": "9.1.0",
-"linsyking/messenger-core": "17.1.0"
+"linsyking/elm-regl": "10.0.0",
+"linsyking/messenger-core": "17.1.3"
 ```
 
 Then run `make`!
