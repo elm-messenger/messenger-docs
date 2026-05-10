@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
       - uses: pnpm/action-setup@v6
         with:
-          version: latest
+          version: 10
       - name: Setting timezone
         run: sudo timedatectl set-timezone America/New_York
       - name: Install packages
