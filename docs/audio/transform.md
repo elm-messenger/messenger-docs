@@ -27,6 +27,8 @@ SOMTransformAudio (AudioName 0 "bg") (scaleVolume 0.5)
 **Example 2.** Fading effects:
 
 ```elm
+import Messenger.Base exposing (getCurrentTimeStamp)
+
 let
     ts =
         getCurrentTimeStamp env.globalData

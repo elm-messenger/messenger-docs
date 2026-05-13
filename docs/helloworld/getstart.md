@@ -105,6 +105,8 @@ Engine-owned values are exposed through getters:
 - Audio and canvas/resource state: `getVolume`, `getVirtualSize`, `getRealSize`, `getViewPort`, `getCanvasOffset`, `getLoadingProgress`
 - Loaded resources: `getFonts`, `getPrograms`, `getSprite`, `getAllSprites`, `getConfigData`
 
+See [Global Data and Getters](../intro/globaldata) for the full reference.
+
 :::tip
 Since `getGlobalStartTime globalData` and `getSceneStartTime globalData` return float numbers, please use a range rather than a specific time point when judging the time.
 :::

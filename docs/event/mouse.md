@@ -23,7 +23,7 @@ The parameters of `MouseDown` and `MouseUp` represent `button` and `position`.
 - `position` represents the virtual coordinate of the mouse.
 
 :::tip
-Current position of the mouse could also be got from `getMousePos globalData`.
+Current position of the mouse could also be got from `getMousePos globalData` from `Messenger.Base`.
 :::
 
 ## `MouseWheel`
@@ -43,5 +43,5 @@ To judge whether mouse is within a circle, use `judgeMouseCircle`. Users could a
 :::
 
 :::note
-Users can use `getPressedMouseButtons globalData` to get the currently pressed mouse buttons.
+Users can use `getPressedMouseButtons globalData` from `Messenger.Base` to get the currently pressed mouse buttons.
 :::

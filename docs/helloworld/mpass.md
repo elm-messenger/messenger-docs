@@ -90,6 +90,8 @@ updaterec env msg data =
 For layer B, edit `Scenes/Recursion/B/Model.elm`:
 
 ```elm
+import Messenger.Base exposing (getSceneStartFrame)
+
 update env evt data =
     if getSceneStartFrame env.globalData == 10 then
         ( data, [ Other ( "A", IntMsg 2 ) ], ( env, False ) )

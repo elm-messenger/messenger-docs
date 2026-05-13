@@ -23,6 +23,8 @@ The string it needs is the real local storage data. Users will use the local sto
 
 `GlobalDataInit` contains `camera`, `volume`, `extraHTML`, `canvasAttributes`, and `userData`. Runtime fields such as timestamps, pressed keys, current scene, loaded resources, and mouse position are initialized and maintained by Messenger.
 
+See [Global Data and Getters](../intro/globaldata) for the exact writable fields and read-only getters.
+
 `saveGlobalData` is called when the user wants to save the global data (emitted by a `SOMSaveGlobalData` message). Users may encode some part of global data.
 
 ```elm

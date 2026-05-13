@@ -43,4 +43,4 @@ messenger init helloworld --min
 messenger init helloworld --use-cdn --min
 ```
 
-See [CLI documentation](../misc/som#messenger-cli-commands) to learn more about Messenger CLI.
+See [CLI documentation](../misc/cli) to learn more about Messenger CLI.

@@ -89,6 +89,8 @@ renderSprite id ( 0, 0 ) ( 100, 0 ) "char04"
 The full view code that display the actions continuously:
 
 ```elm
+import Messenger.Base exposing (getSceneStartTime)
+
 view : RawSceneView UserData Data
 view env data =
     let

@@ -57,6 +57,24 @@ groupWithCamera camera1 [
 
 You could use the default camera (UI camera) by calling `defaultCamera` from `Messenger.Coordinate.Camera`.
 
+You can update the global camera with helpers from `Messenger.Coordinate.Camera`:
+
+```elm
+setCameraPos : ( Float, Float ) -> GlobalData u -> GlobalData u
+setCameraScale : Float -> GlobalData u -> GlobalData u
+setCameraAngle : Float -> GlobalData u -> GlobalData u
+defaultCamera : GlobalData u -> Camera
+```
+
+Example:
+
+```elm
+import Messenger.Coordinate.Camera exposing (setCameraPos)
+
+newEnv =
+    { env | globalData = setCameraPos ( 960, 540 ) env.globalData }
+```
+
 ## Manual Coordinate System Transformation
 
 In some cases, users may want to manually transform a coordinate in world space to view space, or vice versa. Messenger provides two handy functions in `Messenger.Coordinate.Camera`:
@@ -75,3 +93,30 @@ This is the inverse of `worldToView`.
 viewToWorld : Camera -> ( Float, Float ) -> ( Float, Float )
 viewToWorld camera ( x, y ) =
 ```
+
+## Canvas and HTML Coordinates
+
+Some helpers use `InternalData`. In user code, pass `env.globalData.internalData`; do not inspect its fields.
+
+```elm
+fixedPosToReal : InternalData -> ( Float, Float ) -> ( Float, Float )
+posToReal : InternalData -> ( Float, Float ) -> ( Float, Float )
+posToVirtual : InternalData -> ( Float, Float ) -> ( Float, Float )
+lengthToReal : InternalData -> Float -> Float
+fromRealLength : InternalData -> Float -> Float
+fromMouseToVirtual : InternalData -> ( Float, Float ) -> ( Float, Float )
+```
+
+- `posToReal` converts a point from virtual canvas coordinates to real canvas pixels.
+- `posToVirtual` converts real canvas pixels back to virtual coordinates.
+- `fixedPosToReal` is like `posToReal`, but also includes the canvas offset in the browser window.
+- `lengthToReal` and `fromRealLength` convert lengths between virtual and real coordinate systems.
+- `fromMouseToVirtual` converts a browser mouse position to Messenger virtual coordinates.
+
+For extra HTML elements, use `genAttribute` from `Messenger.Coordinate.HTML`:
+
+```elm
+genAttribute : InternalData -> ( Float, Float ) -> ( Float, Float ) -> List (Attribute msg)
+```
+
+It generates fixed-position HTML attributes that match a virtual position and size.
