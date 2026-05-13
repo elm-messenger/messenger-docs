@@ -83,40 +83,30 @@ Let's take a closer look at `GlobalData`.
 ```elm
 type alias GlobalData userdata =
     { internalData : InternalData
-    , sceneStartTime : Float
-    , globalStartTime : Float
-    , globalStartFrame : Int
-    , sceneStartFrame : Int
-    , currentTimeStamp : Float
-    , windowVisibility : Visibility
-    , mousePos : ( Float, Float )
-    , pressedMouseButtons : Set Int
-    , pressedKeys : Set Int
     , extraHTML : Maybe (Html WorldEvent)
     , canvasAttributes : List (Html.Attribute WorldEvent)
-    , volume : Float
     , userData : userdata
-    , currentScene : String
+    , camera : Camera
     }
 ```
 
 Global data won't be reset if users change the scene.
 
-- `globalStartFrame` records the past frames number since the game started
-- `globalStartTime` records the past time since the game started, in milliseconds
-- `sceneStartFrame` records the past frames number since this scene started
-- `sceneStartTime` records the past time since this scene started, in milliseconds
 - `userdata` records the data that users set to save
 - `extraHTML` is used to render extra HTML tags. Be careful to use this
-- `windowVisibility` records whether users stay in this tab/window
-- `pressedKeys` records the keycodes that are be pressed now
-- `pressedMouseButtons` records the mouse buttons that are pressed now
-- `volume` records the volume of the game
-- `currentScene` records the current scene name
-- `mousePos` records the mouse position, in virtual coordinate
+- `canvasAttributes` is used to attach attributes to the game canvas
+- `camera` records the camera position and zoom level
+- `internalData` is opaque engine data. Users can pass it to approved helper functions, but cannot inspect or update its fields.
+
+Engine-owned values are exposed through getters:
+
+- Time and scene: `getSceneStartTime`, `getGlobalStartTime`, `getGlobalStartFrame`, `getSceneStartFrame`, `getCurrentTimeStamp`, `getCurrentScene`
+- Input and browser state: `getWindowVisibility`, `getMousePos`, `getPressedMouseButtons`, `getPressedKeys`
+- Audio and canvas/resource state: `getVolume`, `getVirtualSize`, `getRealSize`, `getViewPort`, `getCanvasOffset`, `getLoadingProgress`
+- Loaded resources: `getFonts`, `getPrograms`, `getSprite`, `getAllSprites`, `getConfigData`
 
 :::tip
-Since the `globalStartTime` and `sceneStartTime` are float numbers, please use a range rather than a specific time point when judging the time.
+Since `getGlobalStartTime globalData` and `getSceneStartTime globalData` return float numbers, please use a range rather than a specific time point when judging the time.
 :::
 
 Now, run `make` to build the game, and use `elm reactor` or other static file hosting tools (If you use VS Code, you can try using the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)), but **DO NOT** directly open the HTML file in the browser because assets won’t be loaded due to [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).

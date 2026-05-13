@@ -207,10 +207,6 @@ For `view`, we render a round rectangle with a given color. The `matcher` can ma
 ```elm
 import REGL.BuiltinPrograms as P
 view env data basedata =
-    let
-        gd =
-            env.globalData.internalData
-    in
     ( P.rect basedata.position (20, 10) data.color, 0 )
 
 matcher data basedata tar =

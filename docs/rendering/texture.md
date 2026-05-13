@@ -119,6 +119,8 @@ To get the size of the texture, there is a function in `Messenger.Render.Texture
 textureDim : InternalData -> String -> ( Int, Int )
 ```
 
+`InternalData` is opaque. In user code, pass `env.globalData.internalData` to texture helpers; do not inspect or update its fields.
+
 Messenger also provides a handy function to render texture in `Messenger.Render.Texture`:
 
 ```elm

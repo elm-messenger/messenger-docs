@@ -18,6 +18,6 @@ SOMLoadResource String ResourceDef
 
 It is the same as you define your font, texture, audio, or  config data assets.
 
-You could check if all assets are loaded by `globalData.internalData.loadedResNum == globalData.internalData.totResNum`.
+You could check if all assets are loaded by `getLoadingProgress globalData`.
 
-All the assets are loaded in `internalData`, so it is also possible to directly inspect the `internalData`.
+All assets are loaded into opaque internal data. Use getters such as `getSprite`, `getAllSprites`, `getFonts`, `getPrograms`, `getConfigData`, and `getLoadingProgress` instead of directly inspecting `internalData`.

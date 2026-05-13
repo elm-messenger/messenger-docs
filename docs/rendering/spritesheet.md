@@ -102,7 +102,7 @@ view env data =
             100
 
         currentAct x =
-            String.fromInt (modBy x (floor (gd.sceneStartTime / rate)))
+            String.fromInt (modBy x (floor (getSceneStartTime gd / rate)))
     in
     group []
         [ renderSprite id ( 100, 300 ) ( 100, 0 ) ("char0" ++ currentAct 13)

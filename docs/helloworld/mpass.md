@@ -91,7 +91,7 @@ For layer B, edit `Scenes/Recursion/B/Model.elm`:
 
 ```elm
 update env evt data =
-    if env.globalData.sceneStartFrame == 10 then
+    if getSceneStartFrame env.globalData == 10 then
         ( data, [ Other ( "A", IntMsg 2 ) ], ( env, False ) )
 
     else

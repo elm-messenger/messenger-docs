@@ -8,9 +8,9 @@ The concept of the Messenger model is summarized in the following diagram:
 
 ![](/img/intro1.jpg)
 
-Messenger provides two parts for users: the templated _user code_ and the _core code_. Users write code based on the template and may use any functions in the core library. In user code, users need to design the _logic_ of scenes, layers, and components. _Logic_ includes the data structure it uses, the `update` function that updates the data when events occur, and the `view` function that renders the object. Messenger core first transforms world events into user events, then sends those events to the scene with the current `globalData`. `globalData` is the data structure Messenger keeps between scenes, and users can read and write it. The user code updates its own data and generates some `SceneOutputMessage` ("SOM" in short).
+Messenger provides two parts for users: the templated _user code_ and the _core code_. Users write code based on the template and may use any functions in the core library. In user code, users need to design the _logic_ of scenes, layers, and components. _Logic_ includes the data structure it uses, the `update` function that updates the data when events occur, and the `view` function that renders the object. Messenger core first transforms world events into user events, then sends those events to the scene with the current `globalData`. `globalData` is the data structure Messenger keeps between scenes. Users can write user-owned fields such as `userData`, `extraHTML`, `canvasAttributes`, and `camera`; engine-owned runtime values are read through getter functions. The user code updates its own data and generates some `SceneOutputMessage` ("SOM" in short).
 SOMs are something like system calls in OS which are the top-level APIs.
-Messenger core ("core" for short) will handle all SOMs and update `globalData` (_e.g._, the current timestamp) so that users could directly use them.
+Messenger core ("core" for short) will handle all SOMs and update the engine-owned part of `globalData` (_e.g._, the current timestamp) so that users could read it safely.
 
 Messenger manages the game through three levels of abstraction (users can create more levels if they want), listed from parent to child:
 

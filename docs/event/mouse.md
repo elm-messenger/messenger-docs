@@ -23,7 +23,7 @@ The parameters of `MouseDown` and `MouseUp` represent `button` and `position`.
 - `position` represents the virtual coordinate of the mouse.
 
 :::tip
-Current position of the mouse could also be got from `globalData.mousePos`.
+Current position of the mouse could also be got from `getMousePos globalData`.
 :::
 
 ## `MouseWheel`
@@ -43,5 +43,5 @@ To judge whether mouse is within a circle, use `judgeMouseCircle`. Users could a
 :::
 
 :::note
-Users can use `globalData.pressedMouseButtons` to get the current pressed mouses.
+Users can use `getPressedMouseButtons globalData` to get the currently pressed mouse buttons.
 :::

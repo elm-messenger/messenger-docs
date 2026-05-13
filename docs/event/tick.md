@@ -29,7 +29,7 @@ type TimeInterval
 :::
 
 :::note
-Users can use `globalData.currentTimeStamp` to get the current timestamp.
+Users can use `getCurrentTimeStamp globalData` to get the current timestamp.
 :::
 
 ## Update and Render Model

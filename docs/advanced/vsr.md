@@ -4,15 +4,15 @@ sidebar_position: 5
 
 # Virtual Scene Runner
 
-:::warning
-This feature is provided in the `messenger-extra` package.
+:::note
+This feature is provided in the `messenger-core` package.
 :::
 
 Users may want to run multiple scenes simultaneously, or use stacked scenes (which can remember your previous scene automatically).
 
 Messenger provides several functions to allow users to run scenes in user code, like running "virtual machines".
 
-The API is very simple, in `Messenge.Scene.VSR`:
+The API is very simple, in `Messenger.Scene.VSR`:
 
 ```elm
 {-| Virtual Scene Runner

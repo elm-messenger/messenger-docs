@@ -22,10 +22,12 @@ allData =
 Files are fetched as plain text. Messenger does not parse or interpret the content.
 :::
 
-Once loaded, data files are stored in `globalData.internalData.configData` as `Dict String String`:
+Once loaded, data files can be read with `getConfigData`:
 
 ```elm
-case Dict.get "level1" env.globalData.internalData.configData of
+import Messenger.Base exposing (getConfigData)
+
+case getConfigData "level1" env.globalData of
     Just raw ->
         -- raw is the file content as a String, decode it yourself
         ...
@@ -35,4 +37,3 @@ case Dict.get "level1" env.globalData.internalData.configData of
 ```
 
 Users should provide a decoder according to the file type to extract needed data from raw string. 
-
