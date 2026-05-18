@@ -83,7 +83,7 @@ After adding the spritesheet resource, we need to show the sprites dynamically.
 To render a single sprite, assuming it is at row 0 and column 4,
 
 ```elm
-renderSprite id ( 0, 0 ) ( 100, 0 ) "char04"
+renderSprite runtime ( 0, 0 ) ( 100, 0 ) "char04"
 ```
 
 The full view code that display the actions continuously:
@@ -92,29 +92,23 @@ The full view code that display the actions continuously:
 import Messenger.Base exposing (getSceneStartTime)
 
 view : RawSceneView UserData Data
-view env data =
+view runtime env data =
     let
-        gd =
-            env.globalData
-
-        id =
-            gd.internalData
-
         rate =
             100
 
         currentAct x =
-            String.fromInt (modBy x (floor (getSceneStartTime gd / rate)))
+            String.fromInt (modBy x (floor (getSceneStartTime runtime / rate)))
     in
     group []
-        [ renderSprite id ( 100, 300 ) ( 100, 0 ) ("char0" ++ currentAct 13)
-        , renderSprite id ( 300, 300 ) ( 100, 0 ) ("char1" ++ currentAct 8)
-        , renderSprite id ( 500, 300 ) ( 100, 0 ) ("char2" ++ currentAct 10)
-        , renderSprite id ( 700, 300 ) ( 100, 0 ) ("char3" ++ currentAct 10)
-        , renderSprite id ( 900, 300 ) ( 100, 0 ) ("char4" ++ currentAct 10)
-        , renderSprite id ( 1100, 300 ) ( 100, 0 ) ("char5" ++ currentAct 6)
-        , renderSprite id ( 1300, 300 ) ( 100, 0 ) ("char6" ++ currentAct 4)
-        , renderSprite id ( 1500, 300 ) ( 100, 0 ) ("char7" ++ currentAct 7)
+        [ renderSprite runtime ( 100, 300 ) ( 100, 0 ) ("char0" ++ currentAct 13)
+        , renderSprite runtime ( 300, 300 ) ( 100, 0 ) ("char1" ++ currentAct 8)
+        , renderSprite runtime ( 500, 300 ) ( 100, 0 ) ("char2" ++ currentAct 10)
+        , renderSprite runtime ( 700, 300 ) ( 100, 0 ) ("char3" ++ currentAct 10)
+        , renderSprite runtime ( 900, 300 ) ( 100, 0 ) ("char4" ++ currentAct 10)
+        , renderSprite runtime ( 1100, 300 ) ( 100, 0 ) ("char5" ++ currentAct 6)
+        , renderSprite runtime ( 1300, 300 ) ( 100, 0 ) ("char6" ++ currentAct 4)
+        , renderSprite runtime ( 1500, 300 ) ( 100, 0 ) ("char7" ++ currentAct 7)
         ]
 ```
 

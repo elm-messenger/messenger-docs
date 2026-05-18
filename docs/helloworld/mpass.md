@@ -7,7 +7,7 @@ sidebar_position: 6
 Recall the `update` function in `ConcreteGeneralModel`.
 
 ```elm
-update : env -> event -> data -> bdata -> ( ( data, bdata ), List (Msg tar msg sommsg), ( env, Bool ) )
+update : envro -> env -> event -> data -> bdata -> ( ( data, bdata ), List (Msg tar msg sommsg), ( env, Bool ) )
 ```
 
 However, layers generally do not need `bdata`, so Messenger provides a `ConcreteLayer` type that hides `bdata` (making it a `()`):
@@ -26,14 +26,14 @@ Here `LayerUpdate` is defined by:
 
 ```elm
 type alias LayerUpdate cdata userdata tar msg scenemsg data =
-    Env cdata userdata -> WorldEvent -> data -> ( data, List (Msg tar msg (SceneOutputMsg scenemsg userdata)), ( Env cdata userdata, Bool ) )
+    Runtime -> Env cdata userdata -> UserEvent -> data -> ( data, List (Msg tar msg (SceneOutputMsg scenemsg userdata)), ( Env cdata userdata, Bool ) )
 ```
 
 `LayerUpdateRec` is defined by:
 
 ```elm
 type alias LayerUpdateRec cdata userdata tar msg scenemsg data =
-    Env cdata userdata -> msg -> data -> ( data, List (Msg tar msg (SceneOutputMsg scenemsg userdata)), Env cdata userdata )
+    Runtime -> Env cdata userdata -> msg -> data -> ( data, List (Msg tar msg (SceneOutputMsg scenemsg userdata)), Env cdata userdata )
 ```
 
 Users can provide the `tar` and `msg` type in `Scenes/Home/SceneBase.elm`.
@@ -57,9 +57,9 @@ import Scenes.Recursion.B.Model as B
 import Scenes.Recursion.C.Model as C
 ...
     , layers =
-        [ A.layer NullLayerMsg envcd
-        , B.layer NullLayerMsg envcd
-        , C.layer NullLayerMsg envcd
+        [ A.layer NullLayerMsg runtime envcd
+        , B.layer NullLayerMsg runtime envcd
+        , C.layer NullLayerMsg runtime envcd
         ]
 ```
 
@@ -74,7 +74,7 @@ type LayerMsg
 For layer A, edit `Scenes/Recursion/A/Model.elm`:
 
 ```elm
-updaterec env msg data =
+updaterec runtime env msg data =
     case msg of
         IntMsg x ->
             if 0 <= x && x < 10 then
@@ -92,8 +92,8 @@ For layer B, edit `Scenes/Recursion/B/Model.elm`:
 ```elm
 import Messenger.Base exposing (getSceneStartFrame)
 
-update env evt data =
-    if getSceneStartFrame env.globalData == 10 then
+update runtime env evt data =
+    if getSceneStartFrame runtime == 10 then
         ( data, [ Other ( "A", IntMsg 2 ) ], ( env, False ) )
 
     else
@@ -103,7 +103,7 @@ update env evt data =
 and
 
 ```elm
-updaterec env msg data =
+updaterec runtime env msg data =
     case msg of
         IntMsg x ->
             ( data, [ Other ( "A", IntMsg (x - 1) ) ], env )
@@ -115,7 +115,7 @@ updaterec env msg data =
 Finally, for layer C, edit `Scenes/Recursion/C/Model.elm`:
 
 ```elm
-updaterec env msg data =
+updaterec runtime env msg data =
     case msg of
         IntMsg x ->
             let

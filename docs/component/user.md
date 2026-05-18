@@ -69,10 +69,10 @@ import Scenes.Components.Components.Rect.Model as Rect
 ...
 
 init : LayerInit SceneCommonData UserData LayerMsg Data
-init env initMsg =
+init runtime env initMsg =
     Data
-        [ Rect.component (RectInit <| RectInit.InitData 150 150 200 200 0 Color.blue) env
-        , Rect.component (RectInit <| RectInit.InitData 200 200 200 200 1 Color.red) env
+        [ Rect.component (RectInit <| RectInit.InitData 150 150 200 200 0 Color.blue) runtime env
+        , Rect.component (RectInit <| RectInit.InitData 200 200 200 200 1 Color.red) runtime env
         ]
 ```
 
@@ -82,7 +82,7 @@ Then try to add a simple logic that when you left-click the rectangle, it turns 
 
 ```elm
 update : ComponentUpdate SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
-update env evnt data basedata =
+update runtime env evnt data basedata =
     case evnt of
         MouseDown 0 pos ->
             if judgeMouseRect pos ( data.left, data.top ) ( data.width, data.height ) then
@@ -140,7 +140,7 @@ How a component reacts to the messages is determined by `updaterec`:
 
 ```elm
 updaterec : ComponentUpdateRec SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
-updaterec env msg data basedata =
+updaterec runtime env msg data basedata =
     case msg of
         RectangleMsg c ->
             ( ( { data | color = c }, basedata ), [], env )
@@ -197,7 +197,7 @@ Finally we can simply modify the handler provided by default:
 
 ```elm title="A/Model.elm"
 handleComponentMsg : Handler Data SceneCommonData UserData LayerTarget LayerMsg SceneMsg ComponentMsg
-handleComponentMsg env compmsg data =
+handleComponentMsg runtime env compmsg data =
     case compmsg of
         SOMMsg som ->
             ( data, [ Parent <| SOMMsg som ], env )

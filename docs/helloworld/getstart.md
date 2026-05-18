@@ -53,13 +53,13 @@ This view will render a textbox at the left-top corner with size 100.
 
 ```elm
 type alias LayerView cdata userdata data =
-    Env cdata userdata -> data -> Renderable
+    Runtime -> Env cdata userdata -> data -> Renderable
 ```
 
 It will expand to
 
 ```elm
-Env SceneCommonData UserData -> Data -> Renderable
+Runtime -> Env SceneCommonData UserData -> Data -> Renderable
 ```
 
 `Env` is a type that represents the _environment_. Layers and components can not only update its own data, it can also view and update the environment (aka. _side effects_).
@@ -73,7 +73,7 @@ type alias Env common userdata =
     }
 ```
 
-`GlobalData` is a type that Messenger keeps track of all the time. It has some key information Messenger needs to use like the screen size.
+`GlobalData` is user-owned data that Messenger keeps across scenes. Engine-owned data such as time, screen size, input state, resources, and audio state lives in a separate read-only `Runtime`.
 
 `commonData` is the data shared among all the layers in a scene. It is defined in `Scenes/Home/SceneBase.elm:SceneCommonData`.
 Users could customize it for each scene.
@@ -82,8 +82,7 @@ Let's take a closer look at `GlobalData`.
 
 ```elm
 type alias GlobalData userdata =
-    { internalData : InternalData
-    , extraHTML : Maybe (Html WorldEvent)
+    { extraHTML : Maybe (Html WorldEvent)
     , canvasAttributes : List (Html.Attribute WorldEvent)
     , userData : userdata
     , camera : Camera
@@ -96,9 +95,8 @@ Global data won't be reset if users change the scene.
 - `extraHTML` is used to render extra HTML tags. Be careful to use this
 - `canvasAttributes` is used to attach attributes to the game canvas
 - `camera` records the camera position and zoom level
-- `internalData` is opaque engine data. Users can pass it to approved helper functions, but cannot inspect or update its fields.
 
-Engine-owned values are exposed through getters:
+Engine-owned values are exposed through getters that take `Runtime`:
 
 - Time and scene: `getSceneStartTime`, `getGlobalStartTime`, `getGlobalStartFrame`, `getSceneStartFrame`, `getCurrentTimeStamp`, `getCurrentScene`
 - Input and browser state: `getWindowVisibility`, `getMousePos`, `getPressedMouseButtons`, `getPressedKeys`
@@ -108,7 +106,7 @@ Engine-owned values are exposed through getters:
 See [Global Data and Getters](../intro/globaldata) for the full reference.
 
 :::tip
-Since `getGlobalStartTime globalData` and `getSceneStartTime globalData` return float numbers, please use a range rather than a specific time point when judging the time.
+Since `getGlobalStartTime runtime` and `getSceneStartTime runtime` return float numbers, please use a range rather than a specific time point when judging the time.
 :::
 
 Now, run `make` to build the game, and use `elm reactor` or other static file hosting tools (If you use VS Code, you can try using the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)), but **DO NOT** directly open the HTML file in the browser because assets won’t be loaded due to [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).

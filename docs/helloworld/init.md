@@ -17,10 +17,10 @@ LayerInit SceneCommonData UserData LayerMsg Data
 which expands to:
 
 ```elm
-Env SceneCommonData UserData -> LayerMsg -> Data
+Runtime -> Env SceneCommonData UserData -> LayerMsg -> Data
 ```
 
-So users can initialize a layer with the environment and a layer message.
+So users can initialize a layer with the read-only runtime, the writable environment, and a layer message.
 
 Users can create an `Init.elm` file to store the initialization type for scenes, layers and components (`Init.elm` is automatically created for scene prototype). Messenger CLI provides an argument to add that file when creating a scene, a layer, or a component:
 

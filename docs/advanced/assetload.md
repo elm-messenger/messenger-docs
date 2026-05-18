@@ -18,13 +18,13 @@ An example:
 
 ```elm
 import REGL.BuiltinPrograms as P
-import Messenger.Base exposing (GlobalData, getLoadingProgress)
+import Messenger.Base exposing (Runtime, getLoadingProgress)
 
-startText : GlobalData UserData -> Renderable
-startText gd =
+startText : Runtime -> Renderable
+startText runtime =
     let
         ( loaded, total ) =
-            getLoadingProgress gd
+            getLoadingProgress runtime
 
         progress =
             String.slice 0 4 <| String.fromFloat (toFloat loaded / toFloat total * 100)

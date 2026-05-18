@@ -29,7 +29,7 @@ type TimeInterval
 :::
 
 :::note
-Users can use `getCurrentTimeStamp globalData` from `Messenger.Base` to get the current timestamp.
+Users can use `getCurrentTimeStamp runtime` from `Messenger.Base` to get the current timestamp.
 :::
 
 ## Update and Render Model

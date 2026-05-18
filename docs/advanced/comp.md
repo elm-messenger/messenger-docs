@@ -60,7 +60,7 @@ Generally, the `update` function in a parent object with components can be divid
 1. **Update basic data** (remove dead components, etc.)
     ```elm
     type alias BasicUpdater data cdata userdata tar msg scenemsg =
-        Env cdata userdata -> UserEvent -> data -> ( data, List (MMsg tar msg scenemsg userdata), ( Env cdata userdata, Bool ) )
+        Runtime -> Env cdata userdata -> UserEvent -> data -> ( data, List (MMsg tar msg scenemsg userdata), ( Env cdata userdata, Bool ) )
     ```
 
 2. **Update component groups** by using `updateComponents`.
@@ -68,7 +68,7 @@ Generally, the `update` function in a parent object with components can be divid
 3. **Determine the messages that need to be sent to components** and distribute them (collisions, etc.)
     ```elm
     type alias Distributor data cdata userdata tar msg scenemsg cmsgpacker =
-        Env cdata userdata -> UserEvent -> data -> ( data, ( List (Msg tar msg scenemsg userdata), cmsgpacker ), Env cdata userdata )
+        Runtime -> Env cdata userdata -> UserEvent -> data -> ( data, ( List (Msg tar msg scenemsg userdata), cmsgpacker ), Env cdata userdata )
     ```
     where `cmsgpacker` type is a helper type for users to send different types of messages to different component groups. Generally, it should be a record with a similar structure to `data`:
     ```elm
@@ -95,36 +95,36 @@ Here is an example of a layer with two lists of components in different componen
 
 ```elm
 update : LayerUpdate SceneCommonData UserData Target LayerMsg SceneMsg Data
-update env evt data =
+update runtime env evt data =
     let
         --- Step 1
         ( newData1, newlMsg1, ( newEnv1, newBlock1 ) ) =
-            updateBasic env evt data
+            updateBasic runtime env evt data
 
         --- Step 2
         ( newAComps2, newAcMsg2, ( newEnv2_1, newBlock2_1 ) ) =
-            updateComponentsWithBlock newEnv1 evt newBlock1 newData1.acomponents
+            updateComponentsWithBlock runtime newEnv1 evt newBlock1 newData1.acomponents
 
         ( newBComps2, newBcMsg2, ( newEnv2_2, newBlock2_2 ) ) =
-            updateComponentsWithBlock newEnv2_1 evt newBlock2_1 newData1.bcomponents
+            updateComponentsWithBlock runtime newEnv2_1 evt newBlock2_1 newData1.bcomponents
 
         --- Step 3
         ( newData3, ( newlMsg3, compMsgs ), newEnv3 ) =
-            distributeComponentMsgs newEnv2_2 evt { newData1 | acomponents = newAComps2, bcomponents = newBComps2 }
+            distributeComponentMsgs runtime newEnv2_2 evt { newData1 | acomponents = newAComps2, bcomponents = newBComps2 }
 
         --- Step 4
         ( newAComps4, newAcMsg4, newEnv4_1 ) =
-            updateComponentsWithTarget newEnv3 compMsgs.acomponents newData3.acomponents
+            updateComponentsWithTarget runtime newEnv3 compMsgs.acomponents newData3.acomponents
 
         ( newBComps4, newBcMsg4, newEnv4_2 ) =
-            updateComponentsWithTarget newEnv4_1 compMsgs.bcomponents newData3.bcomponents
+            updateComponentsWithTarget runtime newEnv4_1 compMsgs.bcomponents newData3.bcomponents
 
         --- Step 5
         ( newData5_1, newlMsg5_1, newEnv5_1 ) =
-            handleComponentMsgs newEnv4_2 (newAcMsg2 ++ newAcMsg4) { newData3 | acomponents = newAComps4, bcomponents = newBComps4 } (newlMsg1 ++ newlMsg3) handlePComponentMsg
+            handleComponentMsgs runtime newEnv4_2 (newAcMsg2 ++ newAcMsg4) { newData3 | acomponents = newAComps4, bcomponents = newBComps4 } (newlMsg1 ++ newlMsg3) handlePComponentMsg
 
         ( newData5_2, newlMsg5_2, newEnv5_2 ) =
-            handleComponentMsgs newEnv5_1 (newBcMsg2 ++ newBcMsg4) newData5_1 newlMsg5_1 handleUComponentMsg
+            handleComponentMsgs runtime newEnv5_1 (newBcMsg2 ++ newBcMsg4) newData5_1 newlMsg5_1 handleUComponentMsg
     in
     ( newData5_2, (newlMsg5_2, ( newEnv5_2, newBlock2_2 ) )
 ```

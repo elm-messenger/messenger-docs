@@ -13,13 +13,13 @@ Use `audioDuration` to get the duration of a loaded audio resource.
 ```elm
 import Messenger.Audio.Audio exposing (audioDuration)
 
-audioDuration env.globalData.internalData "bg"
+audioDuration runtime "bg"
 ```
 
 Its type is:
 
 ```elm
-audioDuration : InternalData -> String -> Maybe Duration
+audioDuration : Runtime -> String -> Maybe Duration
 ```
 
 The string is the audio resource name from `Resources.elm`. The result is `Nothing` if the audio has not been loaded or does not exist.
@@ -32,13 +32,13 @@ Use `newAudioChannel` to find a fresh channel number.
 import Messenger.Audio.Audio exposing (newAudioChannel)
 
 channel =
-    newAudioChannel env.globalData.internalData
+    newAudioChannel runtime
 ```
 
 Its type is:
 
 ```elm
-newAudioChannel : InternalData -> Int
+newAudioChannel : Runtime -> Int
 ```
 
 This is useful when a component wants to play audio without coordinating a fixed channel id with the rest of the game.

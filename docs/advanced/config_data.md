@@ -27,7 +27,7 @@ Once loaded, data files can be read with `getConfigData`:
 ```elm
 import Messenger.Base exposing (getConfigData)
 
-case getConfigData "level1" env.globalData of
+case getConfigData "level1" runtime of
     Just raw ->
         -- raw is the file content as a String, decode it yourself
         ...

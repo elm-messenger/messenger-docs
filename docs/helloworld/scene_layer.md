@@ -33,15 +33,15 @@ type alias Data =
     {}
 
 init : RawSceneInit Data UserData SceneMsg
-init env msg =
+init runtime env msg =
     {}
 
 update : RawSceneUpdate Data UserData SceneMsg
-update env msg data =
+update runtime env msg data =
     ( data, [], env )
 
 view : RawSceneView UserData Data
-view env data =
+view runtime env data =
     REGL.empty
 ```
 
@@ -55,15 +55,15 @@ The rule of thumb is to divide a scene into several **independent** (or at least
 Messenger will generate a layered scene model like this:
 
 ```elm
-commonDataInit : Env () UserData -> Maybe SceneMsg -> SceneCommonData
-commonDataInit _ _ =
+commonDataInit : Runtime -> Env () UserData -> Maybe SceneMsg -> SceneCommonData
+commonDataInit runtime _ _ =
     {}
 
 init : LayeredSceneInit SceneCommonData UserData LayerTarget LayerMsg SceneMsg
-init env msg =
+init runtime env msg =
     let
         cd =
-            commonDataInit env msg
+            commonDataInit runtime env msg
 
         envcd =
             addCommonData cd env
@@ -75,7 +75,7 @@ init env msg =
     }
 
 settings : LayeredSceneEffectFunc SceneCommonData UserData LayerTarget LayerMsg SceneMsg
-settings _ _ _ =
+settings _ _ _ _ =
     []
 ```
 
@@ -90,19 +90,19 @@ type alias Data =
     {}
 
 init : LayerInit SceneCommonData UserData LayerMsg Data
-init env initMsg =
+init runtime env initMsg =
     {}
 
 update : LayerUpdate SceneCommonData UserData LayerTarget LayerMsg SceneMsg Data
-update env evt data =
+update runtime env evt data =
     ( data, [], ( env, False ) )
 
 updaterec : LayerUpdateRec SceneCommonData UserData LayerTarget LayerMsg SceneMsg Data
-updaterec env msg data =
+updaterec runtime env msg data =
     ( data, [], env )
 
 view : LayerView SceneCommonData UserData Data
-view env data =
+view runtime env data =
     REGL.empty
 ```
 
@@ -115,7 +115,7 @@ Users may need to handle `Parent` messages from components in a layer. Messenger
 
 ```elm
 handleComponentMsg : Handler Data SceneCommonData UserData Target LayerMsg SceneMsg ComponentMsg
-handleComponentMsg env compmsg data =
+handleComponentMsg runtime env compmsg data =
     case compmsg of
         SOMMsg som ->
             ( data, [ Parent <| SOMMsg som ], env )
@@ -131,13 +131,13 @@ Then users can combine it with `updateComponents` to define the `update` functio
 
 ```elm
 update : LayerUpdate SceneCommonData UserData LayerTarget LayerMsg SceneMsg Data
-update env evt data =
+update runtime env evt data =
     let
         ( comps1, msgs1, ( env1, block1 ) ) =
-            updateComponents env evt data.components
+            updateComponents runtime env evt data.components
 
         ( data1, msgs2, env2 ) =
-            handleComponentMsgs env1 msgs1 { data | components = comps1 } [] handleComponentMsg
+            handleComponentMsgs runtime env1 msgs1 { data | components = comps1 } [] handleComponentMsg
     in
     ( data1, msgs2, ( env2, block1 ) )
 ```

@@ -31,7 +31,7 @@ import Messenger.Base exposing (getCurrentTimeStamp)
 
 let
     ts =
-        getCurrentTimeStamp env.globalData
+        getCurrentTimeStamp runtime
 
     nts =
         Time.millisToPosix <| floor ts + 2000
@@ -39,5 +39,5 @@ let
     lts =
         Time.millisToPosix <| floor ts + 6000
 in
-    SOMTransformAudio (AudioName 0 "bg") (scaleVolumeAt [ ( Time.millisToPosix <| floor (getCurrentTimeStamp env.globalData), 0 ), ( nts, 2 ), ( lts, 0 ) ])
+    SOMTransformAudio (AudioName 0 "bg") (scaleVolumeAt [ ( Time.millisToPosix <| floor (getCurrentTimeStamp runtime), 0 ), ( nts, 2 ), ( lts, 0 ) ])
 ```

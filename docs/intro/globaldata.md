@@ -4,12 +4,11 @@ sidebar_position: 4
 
 # Global Data and Getters
 
-`GlobalData` is the state Messenger carries across scenes. User code can write user-owned fields, while engine-owned fields are stored in opaque `internalData`.
+`GlobalData` is the user-owned state Messenger carries across scenes. Engine-owned runtime state is kept separately in a read-only `Runtime` value that user code receives beside `Env`.
 
 ```elm
 type alias GlobalData userdata =
-    { internalData : InternalData
-    , extraHTML : Maybe (Html WorldEvent)
+    { extraHTML : Maybe (Html WorldEvent)
     , canvasAttributes : List (Html.Attribute WorldEvent)
     , userData : userdata
     , camera : Camera
@@ -23,7 +22,7 @@ type alias GlobalData userdata =
 - `canvasAttributes`: custom attributes attached to the canvas.
 - `camera`: the global camera used for rendering the scene.
 
-`internalData` is opaque. You can pass `env.globalData.internalData` to approved helpers, such as texture, coordinate, and audio helpers, but you should not inspect or update its fields.
+`Runtime` is opaque and read-only. User code can pass the runtime value to approved helpers, such as texture, coordinate, and audio helpers, but cannot inspect or replace its fields. User update functions return only `Env`, not `Runtime`.
 
 ## Initial Global Data
 
@@ -51,42 +50,42 @@ import Messenger.Base exposing (getSceneStartTime, getMousePos, getPressedKeys)
 
 Time and scene:
 
-- `getSceneStartTime : GlobalData userdata -> Float`
-- `getGlobalStartTime : GlobalData userdata -> Float`
-- `getGlobalStartFrame : GlobalData userdata -> Int`
-- `getSceneStartFrame : GlobalData userdata -> Int`
-- `getCurrentTimeStamp : GlobalData userdata -> Float`
-- `getCurrentScene : GlobalData userdata -> String`
+- `getSceneStartTime : Runtime -> Float`
+- `getGlobalStartTime : Runtime -> Float`
+- `getGlobalStartFrame : Runtime -> Int`
+- `getSceneStartFrame : Runtime -> Int`
+- `getCurrentTimeStamp : Runtime -> Float`
+- `getCurrentScene : Runtime -> String`
 
 Input and browser state:
 
-- `getWindowVisibility : GlobalData userdata -> Visibility`
-- `getMousePos : GlobalData userdata -> ( Float, Float )`
-- `getPressedMouseButtons : GlobalData userdata -> Set Int`
-- `getPressedKeys : GlobalData userdata -> Set Int`
+- `getWindowVisibility : Runtime -> Visibility`
+- `getMousePos : Runtime -> ( Float, Float )`
+- `getPressedMouseButtons : Runtime -> Set Int`
+- `getPressedKeys : Runtime -> Set Int`
 
 Canvas, volume, and resources:
 
-- `getVolume : GlobalData userdata -> Float`
-- `getVirtualSize : GlobalData userdata -> ( Float, Float )`
-- `getRealSize : GlobalData userdata -> ( Float, Float )`
-- `getViewPort : GlobalData userdata -> ( Float, Float )`
-- `getCanvasOffset : GlobalData userdata -> ( Float, Float )`
-- `getLoadingProgress : GlobalData userdata -> ( Int, Int )`
-- `getFonts : GlobalData userdata -> Set String`
-- `getPrograms : GlobalData userdata -> Set String`
-- `getSprite : String -> GlobalData userdata -> Maybe REGL.Texture`
-- `getAllSprites : GlobalData userdata -> Dict String REGL.Texture`
-- `getConfigData : String -> GlobalData userdata -> Maybe String`
+- `getVolume : Runtime -> Float`
+- `getVirtualSize : Runtime -> ( Float, Float )`
+- `getRealSize : Runtime -> ( Float, Float )`
+- `getViewPort : Runtime -> ( Float, Float )`
+- `getCanvasOffset : Runtime -> ( Float, Float )`
+- `getLoadingProgress : Runtime -> ( Int, Int )`
+- `getFonts : Runtime -> Set String`
+- `getPrograms : Runtime -> Set String`
+- `getSprite : String -> Runtime -> Maybe REGL.Texture`
+- `getAllSprites : Runtime -> Dict String REGL.Texture`
+- `getConfigData : String -> Runtime -> Maybe String`
 
 ## Saving Global Data
 
-`saveGlobalData` receives the full `GlobalData`.
+`saveGlobalData` receives the read-only `Runtime` and the writable `GlobalData`.
 
 ```elm
-saveGlobalData : GlobalData UserData -> String
-saveGlobalData globalData =
+saveGlobalData : Runtime -> GlobalData UserData -> String
+saveGlobalData runtime globalData =
     encodeUserData globalData.userData
 ```
 
-If you need engine-owned values while saving, use getters instead of direct fields.
+If you need engine-owned values while saving, read them from `runtime` with getters.

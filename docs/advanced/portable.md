@@ -155,11 +155,11 @@ Then initialize two buttons and a rectangle in one list in the layer:
 
 ```elm
 init : LayerInit SceneCommonData UserData LayerMsg Data
-init env initMsg =
+init runtime env initMsg =
     Data
-        [ Button.component 1 "Rect" (RectMsg yellow) (ButtonInit <| ButtonConfig.Data ( 0, 0 ) ( 100, 100 ) "Button 1") env
-        , Button.component 1 "Rect" (RectMsg orange) (ButtonInit <| ButtonConfig.Data ( 300, 300 ) ( 100, 100 ) "Button 2") env
-        , Rect.component ( RectInit <| RectMsg.Init 200 500 200 200 red ) env
+        [ Button.component 1 "Rect" (RectMsg yellow) (ButtonInit <| ButtonConfig.Data ( 0, 0 ) ( 100, 100 ) "Button 1") runtime env
+        , Button.component 1 "Rect" (RectMsg orange) (ButtonInit <| ButtonConfig.Data ( 300, 300 ) ( 100, 100 ) "Button 2") runtime env
+        , Rect.component ( RectInit <| RectMsg.Init 200 500 200 200 red ) runtime env
         ]
 ```
 

@@ -116,16 +116,16 @@ Texture coordinates start at $(0,0)$ for the lower left corner of a texture imag
 To get the size of the texture, there is a function in `Messenger.Render.Texture`:
 
 ```elm
-textureDim : InternalData -> String -> ( Int, Int )
+textureDim : Runtime -> String -> ( Int, Int )
 ```
 
-`InternalData` is opaque. In user code, pass `env.globalData.internalData` to texture helpers; do not inspect or update its fields.
+`Runtime` is opaque. In user code, pass the `runtime` argument to texture helpers.
 
 Messenger also provides a handy function to render texture in `Messenger.Render.Texture`:
 
 ```elm
-renderSprite : InternalData -> ( Float, Float ) -> ( Float, Float ) -> String -> Renderable
-renderSprite gd position size name =
+renderSprite : Runtime -> ( Float, Float ) -> ( Float, Float ) -> String -> Renderable
+renderSprite runtime position size name =
     ...
 ```
 
@@ -133,7 +133,7 @@ Users could only specify either height or width to let the function computes the
 For example, if users want to draw an image with width 100 pixel and keep the texture ratio, then they can write:
 
 ```elm
-renderSprite gd position (100, 0) name
+renderSprite runtime position (100, 0) name
 ```
 
 Moreover, users could directly use the texture size by using `(0,0)` as the size.

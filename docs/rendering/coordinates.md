@@ -63,7 +63,7 @@ You can update the global camera with helpers from `Messenger.Coordinate.Camera`
 setCameraPos : ( Float, Float ) -> GlobalData u -> GlobalData u
 setCameraScale : Float -> GlobalData u -> GlobalData u
 setCameraAngle : Float -> GlobalData u -> GlobalData u
-defaultCamera : GlobalData u -> Camera
+defaultCamera : Runtime -> Camera
 ```
 
 Example:
@@ -96,15 +96,15 @@ viewToWorld camera ( x, y ) =
 
 ## Canvas and HTML Coordinates
 
-Some helpers use `InternalData`. In user code, pass `env.globalData.internalData`; do not inspect its fields.
+Some helpers use `Runtime`. Pass the `runtime` argument that Messenger gives to user model functions.
 
 ```elm
-fixedPosToReal : InternalData -> ( Float, Float ) -> ( Float, Float )
-posToReal : InternalData -> ( Float, Float ) -> ( Float, Float )
-posToVirtual : InternalData -> ( Float, Float ) -> ( Float, Float )
-lengthToReal : InternalData -> Float -> Float
-fromRealLength : InternalData -> Float -> Float
-fromMouseToVirtual : InternalData -> ( Float, Float ) -> ( Float, Float )
+fixedPosToReal : Runtime -> ( Float, Float ) -> ( Float, Float )
+posToReal : Runtime -> ( Float, Float ) -> ( Float, Float )
+posToVirtual : Runtime -> ( Float, Float ) -> ( Float, Float )
+lengthToReal : Runtime -> Float -> Float
+fromRealLength : Runtime -> Float -> Float
+fromMouseToVirtual : Runtime -> ( Float, Float ) -> ( Float, Float )
 ```
 
 - `posToReal` converts a point from virtual canvas coordinates to real canvas pixels.
@@ -116,7 +116,7 @@ fromMouseToVirtual : InternalData -> ( Float, Float ) -> ( Float, Float )
 For extra HTML elements, use `genAttribute` from `Messenger.Coordinate.HTML`:
 
 ```elm
-genAttribute : InternalData -> ( Float, Float ) -> ( Float, Float ) -> List (Attribute msg)
+genAttribute : Runtime -> ( Float, Float ) -> ( Float, Float ) -> List (Attribute msg)
 ```
 
 It generates fixed-position HTML attributes that match a virtual position and size.

@@ -102,7 +102,7 @@ The real transition effect is implemented in `SingleTrans`:
 
 ```elm
 type alias SingleTrans =
-    InternalData -> Renderable -> Float -> Renderable
+    Runtime -> Renderable -> Float -> Renderable
 ```
 
 The `Renderable` argument is the `view` of the next scene. The `Float` argument is the current progress of the transition. It is a value from 0 to 1. 0 means the transition starts, and 1 means the transition ends.
@@ -164,9 +164,9 @@ This is possible by using `nullTransition` and `fadeInWithRenderable` functions.
 Since the second scene always exists behind the transition scene during the transition, if the original scene is transparent, the effect will be quite strange. To avoid this, add a white background to the scene (or layer):
 
 ```elm
-view env data =
+view runtime env data =
     group []
-        [ coloredBackground Color.white env.globalData
+        [ coloredBackground Color.white runtime
         ...
         ]
 ```
@@ -174,7 +174,7 @@ view env data =
 Then emit this `SOMMsg`:
 
 ```elm
-SOMLoadGC (Transition.genGC (Transition.InitOption (genTransition ( nullTransition, Duration.seconds 0 ) ( fadeInWithRenderable <| view env data, Duration.seconds 3 ) Nothing) ( "B", Nothing ) True) Nothing)
+SOMLoadGC (Transition.genGC (Transition.InitOption (genTransition ( nullTransition, Duration.seconds 0 ) ( fadeInWithRenderable <| view runtime env data, Duration.seconds 3 ) Nothing) ( "B", Nothing ) True) Nothing)
 ```
 
 ### Mixed Transition

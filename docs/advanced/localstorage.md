@@ -28,10 +28,10 @@ See [Global Data and Getters](../intro/globaldata) for the exact writable fields
 `saveGlobalData` is called when the user wants to save the global data (emitted by a `SOMSaveGlobalData` message). Users may encode some part of global data.
 
 ```elm
-saveGlobalData : GlobalData UserData -> String
+saveGlobalData : Runtime -> GlobalData UserData -> String
 ```
 
-`saveGlobalData` receives the full `GlobalData`, but engine-owned fields should still be read through getters if needed.
+`saveGlobalData` receives the current read-only `Runtime` and the full writable `GlobalData`. If you need engine-owned values while saving, read them from `runtime` with getters.
 
 :::tip
 Also see [tetris](https://github.com/elm-messenger/messenger-core/tree/main/test/src/Scenes/Tetris) example to learn how to use localStorage in Messenger. The userdata is defined at [UserData.elm](https://github.com/elm-messenger/messenger-core/blob/main/test/src/Lib/UserData.elm).

@@ -18,6 +18,6 @@ SOMLoadResource String ResourceDef
 
 It is the same as you define your font, texture, audio, or  config data assets.
 
-You could check if all assets are loaded by `getLoadingProgress globalData`.
+You could check if all assets are loaded by `getLoadingProgress runtime`.
 
-All assets are loaded into opaque internal data. Use getters such as `getSprite`, `getAllSprites`, `getFonts`, `getPrograms`, `getConfigData`, and `getLoadingProgress` instead of directly inspecting `internalData`.
+All assets are loaded into opaque runtime data. Use getters such as `getSprite`, `getAllSprites`, `getFonts`, `getPrograms`, `getConfigData`, and `getLoadingProgress` instead of directly inspecting runtime internals.
