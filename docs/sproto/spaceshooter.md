@@ -22,15 +22,17 @@ messenger component Game Bullet -i -p
 messenger component Game Enemy -i -p
 messenger component Game Ship -i -p
 messenger layer Game Main -c -i -p
+messenger layer Game Front --proto -p
 messenger level Game Level1
 ```
 
-Next, add layer `Main` to `Game`:
+Next, add layers `Main` and `Front` to `Game`:
 
 ```elm
 ...
     , layers =
-        [ Main.layer NullLayerMsg envcd
+        [ Main.layer (MainInitData { components = comps }) runtime envcd
+        , Front.layer (FrontInitData levelName) runtime envcd
         ]
 ```
 
@@ -55,40 +57,30 @@ import SceneProtos.Game.Main.Init as MainInit
 ...
 type LayerMsg scenemsg
     = MainInitData (MainInit.InitData SceneCommonData scenemsg)
+    | FrontInitData String
     | NullLayerMsg
 ```
 
 For the same reason, we cannot use `SceneMsg`.
 
-Define the `InitData` of the scene. Here it should be almost the same as the layer `InitData` (`SceneProtos/Game/Init.elm`).
+Define the `InitData` of the scene (`SceneProtos/Game/Init.elm`):
 
 ```elm
 type alias InitData scenemsg =
     { objects : List (LevelComponentStorage SceneCommonData UserData ComponentTarget ComponentMsg BaseData scenemsg)
+    , level : String
     }
 ```
 
-Here `LevelComponentStorage` is a type sugar to store components that have initialized `Msg` but not `Env`. See the difference from its definition:
+Here `LevelComponentStorage` is a type sugar to store components that have initialized `Msg` but not `Runtime` or `Env`:
 
 ```elm
 type alias ComponentStorage cdata userdata tar msg bdata scenemsg =
     msg -> LevelComponentStorage cdata userdata tar msg bdata scenemsg
 
 type alias LevelComponentStorage cdata userdata tar msg bdata scenemsg =
-    Env cdata userdata -> AbstractComponent cdata userdata tar msg bdata scenemsg
+    Runtime -> Env cdata userdata -> AbstractComponent cdata userdata tar msg bdata scenemsg
 ```
-
-Finally, let's modify `Lib/Base.elm` to add the scene `InitData`:
-
-```elm
-import SceneProtos.Game.Init as GameInit
-...
-type SceneMsg
-    = GameInitData (GameInit.InitData SceneMsg)
-    | NullSceneMsg
-```
-
-It is here to use `SceneMsg`.
 
 ## Component Base
 
@@ -103,13 +95,38 @@ type alias InitData =
     , position : ( Float, Float )
     , sinF : Float
     , sinA : Float
-    , bulletInterval : Int
+    , bulletInterval : Float
     }
 ```
 
-The other two components are similar.
+For the bullet (`SceneProtos/Game/Components/Bullet/Init.elm`):
 
-For the bullet, the `CreateInitData` is used to create a new bullet during the game running. The `id` is determined by the layer so it's not in `CreateInitData`.
+```elm
+type alias InitData =
+    { id : Int
+    , velocity : Float
+    , position : ( Float, Float )
+    , color : Color
+    }
+
+type alias CreateInitData =
+    { velocity : Float
+    , position : ( Float, Float )
+    , color : Color
+    }
+```
+
+The `CreateInitData` is used to create a new bullet during the game running. The `id` is determined by the layer so it's not in `CreateInitData`.
+
+For the ship (`SceneProtos/Game/Components/Ship/Init.elm`):
+
+```elm
+type alias InitData =
+    { id : Int
+    , position : ( Float, Float )
+    , bulletInterval : Float
+    }
+```
 
 Finally, we write `SceneProtos.Game.Components.ComponentBase`:
 
@@ -126,7 +143,6 @@ type ComponentMsg
     | EnemyInitMsg Enemy.InitData
     | ShipInitMsg Ship.InitData
     | NullComponentMsg
-    -- You may add more here
 
 type ComponentTarget
     = Type String
@@ -140,13 +156,23 @@ type alias BaseData =
     , collisionBox : ( Float, Float )
     , alive : Bool
     }
+
+emptyBaseData : BaseData
+emptyBaseData =
+    { id = 0
+    , position = ( 0, 0 )
+    , velocity = 0
+    , collisionBox = ( 0, 0 )
+    , alive = True
+    , ty = ""
+    }
 ```
 
-Here we define the message type, target, and the base data type.
+Here we define the message type, target, the base data type, and a default `emptyBaseData`.
 
 ## Component Models
 
-Now let's write model files for components. Here we only write the bullet model. Others are similar.
+Now let's write model files for components. Here we write the bullet model. Others are similar.
 
 First, define the data type and `init` function:
 
@@ -155,7 +181,8 @@ type alias Data =
     { color : Color
     }
 
-init env initMsg =
+init : ComponentInit SceneCommonData UserData ComponentMsg Data BaseData
+init _ _ initMsg =
     case initMsg of
         BulletInitMsg msg ->
             ( { color = msg.color }
@@ -172,17 +199,18 @@ init env initMsg =
             ( { color = Color.black }, emptyBaseData )
 ```
 
-We need to initialize the base data in `init` function.
+Note that `init` takes `runtime` and `env` as its first two parameters (ignored with `_` here). We initialize the base data in `init`.
 
-Then, for `update` function, we want the moving bullet to move a small step on every `Tick`.
+Then, for `update`, we want the bullet to move a small step on every `Tick`:
 
 ```elm
-update env evnt data basedata =
+update : ComponentUpdate SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
+update _ env evnt data basedata =
     case evnt of
         Tick dt ->
             let
                 newBullet =
-                    { basedata | position = ( Tuple.first basedata.position + basedata.velocity * toFloat dt, Tuple.second basedata.position ) }
+                    { basedata | position = ( Tuple.first basedata.position + basedata.velocity * dt, Tuple.second basedata.position ) }
             in
             ( ( data, newBullet ), [], ( env, False ) )
 
@@ -190,10 +218,11 @@ update env evnt data basedata =
             ( ( data, basedata ), [], ( env, False ) )
 ```
 
-For `updaterec`, when a bullet hits a bullet, they should all disappear.
+For `updaterec`, when a bullet hits another bullet, they should both disappear:
 
 ```elm
-updaterec env msg data basedata =
+updaterec : ComponentUpdateRec SceneCommonData Data UserData SceneMsg ComponentTarget ComponentMsg BaseData
+updaterec _ env msg data basedata =
     case msg of
         CollisionMsg "Bullet" ->
             ( ( data, { basedata | alive = False } ), [], env )
@@ -202,39 +231,44 @@ updaterec env msg data basedata =
             ( ( data, basedata ), [], env )
 ```
 
-For `view`, we render a round rectangle with a given color. The `matcher` can match both `Id` and `Type`.
+For `view`, we render a rounded rectangle with the given color. The `matcher` can match both `Id` and `Type`.
 
 ```elm
 import REGL.BuiltinPrograms as P
-view env data basedata =
-    ( P.rect basedata.position (20, 10) data.color, 0 )
+view : ComponentView SceneCommonData UserData Data BaseData
+view _ _ data basedata =
+    ( P.roundedRect basedata.position ( 20, 10 ) 5 data.color, 0 )
 
-matcher data basedata tar =
+matcher : ComponentMatcher Data BaseData ComponentTarget
+matcher _ basedata tar =
     tar == Type basedata.ty || tar == Id basedata.id
 ```
+
+Other components follow the same pattern. The enemy model additionally uses `getSceneStartTime runtime` in its `Tick` handler for sinusoidal movement and emits `NewBulletMsg` periodically. The ship model uses `getPressedKeys runtime` in `KeyUp` to detect whether arrow keys are still held.
 
 ## Layer Model
 
 The layer needs to manage all the components and handle the collisions.
 
-Therefore, we first write a collision handler to deal with collisions. `updateCollision` will send `CollisionMsg` to components that have collisions. See the source code for how to implement the collision updater.
+Therefore, we first write a collision handler to deal with collisions. `judgeCollision` will generate `(target, CollisionMsg)` pairs for components that have collisions. See the source code for how to implement the collision logic.
 
 ```elm
-updateCollision : Env SceneCommonData UserData -> List GameComponent -> ( List GameComponent, List (MMsgBase ComponentMsg SceneMsg UserData), Env SceneCommonData UserData )
+judgeCollision : List GameComponent -> List ( ComponentTarget, ComponentMsg )
 ```
 
 Three helper functions are also used:
 
-- `removeDead`: remove dead components
-- `removeOutOfBound`: remove components that are out of bound
+- `removeDead`: remove dead components (filtering by `baseData.alive`)
+- `removeOutOfBound`: remove components that are out of bounds
 - `genUID`: generate a new unique ID from the list of components
 
-In `SceneProtos.Game.Main.Model`, most parts are easy to write. The `handleComponentMsg` that handles messages from the component might be tricky. It needs to create a new component if it receives `NewBulletMsg`.
+In `SceneProtos.Game.Main.Model`, the `handleComponentMsg` that handles messages from the components needs to create a new component if it receives `NewBulletMsg`.
 
 ```elm
 import SceneProtos.Game.Components.Bullet.Model as Bullet
 ...
-handleComponentMsg env compmsg data =
+handleComponentMsg : Handler Data SceneCommonData UserData LayerTarget (LayerMsg SceneMsg) SceneMsg ComponentMsg
+handleComponentMsg runtime env compmsg data =
     case compmsg of
         SOMMsg som ->
             ( data, [ Parent <| SOMMsg som ], env )
@@ -255,20 +289,55 @@ handleComponentMsg env compmsg data =
                                 }
 
                         newBullet =
-                            Bullet.component newBulletInitMsg env
+                            Bullet.component newBulletInitMsg runtime env
 
                         newObjs =
                             newBullet :: objs
                     in
                     ( { data | components = newObjs }, [], env )
 
+                GameOverMsg ->
+                    let
+                        cd =
+                            env.commonData
+                    in
+                    ( data, [], { env | commonData = { cd | gameOver = True } } )
+
                 _ ->
                     ( data, [], env )
 ```
 
+Note the `runtime` parameter in `handleComponentMsg` and its use in `Bullet.component newBulletInitMsg runtime env`.
+
 ## Sceneproto Model
 
-We need to update the sceneproto model to initialize the components. See the source code for details.
+We need to update the sceneproto model to initialize the components. In `SceneProtos/Game/Model.elm`:
+
+```elm
+commonDataInit : Runtime -> Env () UserData -> Maybe (InitData SceneMsg) -> SceneCommonData
+commonDataInit _ _ _ =
+    { score = 0
+    , gameOver = False
+    }
+
+init : LayeredSceneProtoInit SceneCommonData UserData LayerTarget (LayerMsg SceneMsg) SceneMsg (InitData SceneMsg)
+init runtime env data =
+    let
+        cd = commonDataInit runtime env data
+        envcd = addCommonData cd env
+        comps = List.map (\x -> x runtime envcd) (Maybe.withDefault [] (Maybe.map .objects data))
+        levelName = Maybe.withDefault "" (Maybe.map .level data)
+    in
+    { renderSettings = []
+    , commonData = cd
+    , layers =
+        [ Main.layer (MainInitData { components = comps }) runtime envcd
+        , Front.layer (FrontInitData levelName) runtime envcd
+        ]
+    }
+```
+
+The components from the level's `InitData` are initialized by applying `runtime envcd` to each `LevelComponentStorage`, which completes the component creation.
 
 ## Level Model
 
@@ -283,19 +352,24 @@ import SceneProtos.Game.Init exposing (InitData)
 import SceneProtos.Game.Model exposing (genScene)
 ...
 
+initData : Env () UserData -> Maybe SceneMsg -> InitData SceneMsg
+initData _ _ =
+    { objects =
+        [ Ship.component (ShipInitMsg <| ShipInit.InitData 0 ( 100, 500 ) 200)
+        , Enemy.component (EnemyInitMsg <| EnemyInit.InitData 1 (-1 / 10) ( 1920, 800 ) 120 30 200)
+        ]
+    , level = "Level1"
+    }
+
 init : RawSceneProtoLevelInit UserData SceneMsg (InitData SceneMsg)
-init env msg =
+init _ env msg =
     Just (initData env msg)
 
-initData : Env () UserData -> Maybe SceneMsg -> InitData SceneMsg
-initData env msg =
-    { objects =
-        [ Ship.component (ShipInitMsg <| ShipInit.InitData 0 ( 100, 500 ) 15)
-        , Enemy.component (EnemyInitMsg <| EnemyInit.InitData 1 ( -1 / 15 ) ( 1920, 1000 ) 50 10 25)
-        ]
-    }
+scene : SceneStorage UserData SceneMsg
+scene =
+    genScene init
 ```
 
 :::note
-`env` is not used to initialize the components. This is because component initialization needs common data and that should happen during the initialization of the sceneproto.
+`LevelComponentStorage` is `Runtime -> Env cdata userdata -> AbstractComponent`. The actual component creation (applying `runtime` and `env`) happens in the sceneproto's `init`, not in the level. The level only provides the partially-applied storage functions.
 :::
