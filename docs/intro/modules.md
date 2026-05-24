@@ -20,22 +20,26 @@ This doc is compatible with core `20.0.0`, elm-regl `10.0.0`, templates and CLI 
 
 If you are using a messenger version that is not listed here, you may update your messenger and your messenger project with the following steps:
 
-**Install latest Messenger CLI**
+**Use `messenger sync` (recommended)**
+
+Run `messenger sync` in your project directory. This will update the templates, JS files, and `elm.json` dependencies automatically. Use `messenger sync --list` to check for available updates without making changes.
+
+**Manual upgrade**
+
+1. Install the latest Messenger CLI:
 
 ```bash
 pipx install -i https://pypi.python.org/simple elm-messenger>=0.6.0
 ```
 
-**Remove `.messenger` in your messenger project**
+2. Remove `.messenger` in your messenger project:
 
 ```bash
 cd <your project directory with .messenger>
 rm -rf .messenger
 ```
 
-**Upgrade Messenger libraries**
-
-Edit your `elm.json`, change the following packages to the latest version:
+3. Upgrade Messenger libraries. Edit your `elm.json`, change the following packages to the latest version:
 
 ```json
 "linsyking/elm-regl": "10.0.0",

@@ -80,7 +80,7 @@ Canvas, volume, and resources:
 
 ## Saving Global Data
 
-`saveGlobalData` receives the read-only `Runtime` and the writable `GlobalData`.
+`saveGlobalData` is used for local storage (see [LocalStorage](../advanced/localstorage.md)). It receives the read-only `Runtime` and the writable `GlobalData`.
 
 ```elm
 saveGlobalData : Runtime -> GlobalData UserData -> String

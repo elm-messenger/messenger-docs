@@ -109,7 +109,7 @@ See [Global Data and Getters](../intro/globaldata) for the full reference.
 Since `getGlobalStartTime runtime` and `getSceneStartTime runtime` return float numbers, please use a range rather than a specific time point when judging the time.
 :::
 
-Now, run `make` to build the game, and use `elm reactor` or other static file hosting tools (If you use VS Code, you can try using the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)), but **DO NOT** directly open the HTML file in the browser because assets won’t be loaded due to [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
+Now, run `make` to build the game, and use `python -m http.server <port>` or other static file hosting tools (If you use VS Code, you can try using the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)), but **DO NOT** directly open the HTML file in the browser because assets won’t be loaded due to [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
 
 We use coordinate `(0, 0)` to render the text instead of using HTML tags. This coordinate is not the real pixels on the screen, but the **virtual coordinate** in the game.
 
