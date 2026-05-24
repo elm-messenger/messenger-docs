@@ -12,11 +12,27 @@ sidebar_position: 1
 
 This message is used to change to another scene. Users need to provide the scene init data and the scene name.
 
+```elm
+-- In a Layer or Component
+( data, [ Parent <| SOMMsg <| SOMChangeScene (Just initMsg) "TargetScene" ], env )
+
+-- In a RawScene
+( data, [ SOMChangeScene (Just initMsg) "TargetScene" ], env )
+```
+
 ## `SOMPlayAudio`
 
 **Definition:** `SOMPlayAudio Int String AudioOption`
 
 This message is used to play an audio. It has three parameters: channel ID, audio name, and audio option. The channel ID is where this audio will be played. There might be multiple audios playing on the same channel. Audio name is what users define in the keys of `allAudio`.
+
+```elm
+-- Play once
+( data, [ Parent <| SOMMsg <| SOMPlayAudio 0 "bgm" (AOnce Nothing) ], env )
+
+-- Loop indefinitely
+( data, [ Parent <| SOMMsg <| SOMPlayAudio 0 "bgm" (ALoop Nothing Nothing) ], env )
+```
 
 See [Audio Basics](../audio/basics.md) for more details.
 
@@ -25,6 +41,14 @@ See [Audio Basics](../audio/basics.md) for more details.
 **Definition:** `SOMStopAudio AudioTarget`
 
 Stops a playing audio stream.
+
+```elm
+-- Stop a specific audio by name
+( data, [ Parent <| SOMMsg <| SOMStopAudio (AudioName 0 "bgm") ], env )
+
+-- Stop all audio on a channel
+( data, [ Parent <| SOMMsg <| SOMStopAudio (AudioChannel 0) ], env )
+```
 
 See [Audio Basics](../audio/basics.md) for more details.
 
@@ -49,6 +73,18 @@ This message is used to show an alert. The parameter is the content of the alert
 This message is used to show a [prompt](https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt). Users can use this to get text input from the user. The first parameter is the name of the prompt, and the second parameter is the title of the prompt.
 
 When the user clicks the OK button, user code will receive a `Prompt String String` message. The first parameter is the name of the prompt, and the second parameter is the user’s input.
+
+```elm
+-- Show a prompt
+( data, [ Parent <| SOMMsg <| SOMPrompt "playerName" "Enter your name" ], env )
+
+-- Handle the response in updaterec
+updaterec runtime env msg data =
+    case msg of
+        Prompt "playerName" input ->
+            ( { data | playerName = input }, [], env )
+        _ -> ( data, [], env )
+```
 
 ## `SOMSetVolume`
 
@@ -82,6 +118,10 @@ Unloads all global components matching the given target.
 
 Sends a message to the global component identified by the target. The message is a JSON `Value`.
 
+```elm
+( data, [ Parent <| SOMMsg <| SOMCallGC ( "Transition", Encode.null ) ], env )
+```
+
 See [Global Component](../advanced/gc).
 
 ## `SOMChangeFPS`
@@ -108,3 +148,12 @@ Users may want to change the settings in `MainConfig.elm` to match their demand.
 - `initGlobalData` and `saveGlobalData`: `initGlobalData` returns `GlobalDataInit`; `saveGlobalData` receives `Runtime` and `GlobalData`. See [Global Data and Getters](../intro/globaldata)
 - `fboNum`: Number of FBOs to enable at start
 - `enabledProgram`: Builtin REGL programs enabled at the beginning of the game. See [Rendering](../rendering/opts)
+
+
+```elm
+-- MainConfig.elm
+initScene = "Home"
+virtualSize = ( 1920, 1080 )
+debug = True
+timeInterval = REGL.AnimationFrame
+```

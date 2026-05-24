@@ -22,6 +22,12 @@ Arguments:
 - `--min`: Use minimal regl JS that has no builtin font.
 - `--current-dir`, `-c`: Create the project in the current directory.
 
+For example:
+
+```bash
+messenger init -g myproject
+```
+
 :::tip
 When `--current-dir` is used, the `name` argument is still required but is not used as the directory name.
 :::
@@ -38,6 +44,14 @@ Arguments:
 - `--raw`: Use raw scene without layers
 - `--proto`, `-p`: Create a sceneproto
 - `--init`, `-i`: Create an `Init.elm` file
+
+For example:
+
+```bash
+messenger scene Home
+messenger scene Menu --raw
+messenger scene Forest --proto
+```
 
 :::note
 `--raw` and `--proto` can be used together to create a raw scene prototype.
@@ -58,6 +72,13 @@ Arguments:
 - `--proto`, `-p`: Create layer in sceneproto
 - `--init`, `-i`: Create an `Init.elm` file
 
+For example:
+
+```bash
+messenger layer Home MainLayer
+messenger layer Home CompLayer -c
+```
+
 ## Component
 
 Create a component.
@@ -72,6 +93,12 @@ Arguments:
 - `--proto`, `-p`: Create component in sceneproto
 - `--init`, `-i`: Create an `Init.elm` file
 
+For example:
+
+```bash
+messenger component Home Player -i
+```
+
 ## Level
 
 Create a level from a scene prototype.
@@ -83,6 +110,12 @@ Arguments:
 - `sceneproto`: The name of the sceneproto
 - `name`: The name of the level
 
+For example:
+
+```bash
+messenger level Forest Level2
+```
+
 ## Global Component
 
 Create a global component.
@@ -92,6 +125,12 @@ Usage: `messenger gc NAME`
 Arguments:
 
 - `name`: The name of the component
+
+For example:
+
+```bash
+messenger gc Transition
+```
 
 ## Sync
 
@@ -105,6 +144,14 @@ Arguments:
 - `--template-repo`, `-t`: The new repository to sync from, empty for no change.
 - `--template-tag`, `-b`: The new tag or branch to sync from, empty for no change.
 - `--list`, `-l`: List the current dependencies version and latest version on remote without making changes.
+
+For example:
+
+```bash
+messenger sync
+messenger sync --list
+messenger sync --force
+```
 
 :::note
 `--list` exits with code 1 when updates are available.
@@ -122,6 +169,12 @@ Arguments:
 - `name`: The name of the scene or sceneproto
 - `--rm`: Also remove the module source files from disk
 - `--rml`: Remove all levels in the sceneproto
+
+For example:
+
+```bash
+messenger remove scene OldScene --rm
+```
 
 :::note
 `--rml` removes the level entries from `messenger.json`. Combined with `--rm`, it also deletes each level's source directory from disk.
@@ -141,6 +194,12 @@ Each font is specified by a font file path, optionally followed by:
 Options:
 
 - `--range`: Set the distance range. Default: 4
+
+For example:
+
+```bash
+messenger font myfont.ttf -n MyFont
+```
 
 :::tip
 Font files are not validated before the confirmation prompt. Make sure the file paths are correct before proceeding.

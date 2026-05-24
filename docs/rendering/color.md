@@ -12,6 +12,19 @@ $$
 R, G, B\leq A
 $$
 
+```elm
+import Color exposing (rgba)
+
+-- Opaque red: R,G,B <= A holds (1 <= 1)
+red = rgba 1 0 0 1
+
+-- Semi-transparent red: pre-multiply RGB by alpha (0.5 * 1 = 0.5)
+transparentRed = rgba 0.5 0 0 0.5
+
+-- Fully transparent
+invisible = rgba 0 0 0 0
+```
+
 ## Why pre-multiplying?
 
 Think what "alpha" value really is. How to draw a transparent color on the screen? Without premultiplied alpha mode, the renderer needs to multiply RGB values by its alpha channel.

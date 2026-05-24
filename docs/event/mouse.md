@@ -26,6 +26,20 @@ The parameters of `MouseDown` and `MouseUp` represent `button` and `position`.
 Current position of the mouse could also be got from `getMousePos runtime` from `Messenger.Base`.
 :::
 
+The following example shows how to detect a mouse click inside a rectangular area:
+
+```elm
+update runtime env evt data =
+    case evt of
+        MouseDown 0 pos ->
+            if judgeMouseRect pos data.buttonPos data.buttonSize then
+                ( data, [ Parent <| OtherMsg ButtonClicked ], ( env, True ) )
+            else
+                ( data, [], env )
+        _ ->
+            ( data, [], env )
+```
+
 ## `MouseWheel`
 
 **Definition:** `MouseWheel Int`

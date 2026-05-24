@@ -18,4 +18,9 @@ It also provides some options that could be changed during the game:
 
 `timeInterval`: Controls the frame rate.
 
-Users need to use an SOM call `ChangeFPS` to change the framerate during the game.
+Users need to use an SOM call `SOMChangeFPS` to change the framerate during the game.
+
+```elm
+-- Change to 30 FPS
+( data, [ Parent <| SOMMsg <| SOMChangeFPS (REGL.Millisecond 33) ], env )
+```
